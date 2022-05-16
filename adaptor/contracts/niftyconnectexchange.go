@@ -28,7 +28,7 @@ var (
 )
 
 // NiftyconnectexchangeABI is the input ABI used to generate the binding from.
-const NiftyconnectexchangeABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"}],\"name\":\"calculateMatchPrice_\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"tokenTransferProxy\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"exchangeFeeRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"target\",\"type\":\"address\"},{\"name\":\"calldata\",\"type\":\"bytes\"},{\"name\":\"extradata\",\"type\":\"bytes\"}],\"name\":\"staticCall\",\"outputs\":[{\"name\":\"result\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"validateOrder_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"}],\"name\":\"ordersCanMatch_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"array\",\"type\":\"bytes\"},{\"name\":\"desired\",\"type\":\"bytes\"},{\"name\":\"mask\",\"type\":\"bytes\"}],\"name\":\"guardedArrayReplace\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"DOMAIN_SEPARATOR\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"selector\",\"type\":\"uint256\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"nftAddress\",\"type\":\"address\"},{\"name\":\"tokenId\",\"type\":\"uint256\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"name\":\"buildCallData\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"calculateCurrentPrice_\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newTakerRelayerFeeShare\",\"type\":\"uint256\"},{\"name\":\"newMakerRelayerFeeShare\",\"type\":\"uint256\"},{\"name\":\"newProtocolFeeShare\",\"type\":\"uint256\"}],\"name\":\"changeTakerRelayerFeeShare\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"royaltyRegisterHub\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"takerRelayerFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newProtocolFeeRecipient\",\"type\":\"address\"}],\"name\":\"changeProtocolFeeRecipient\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"buyCalldata\",\"type\":\"bytes\"},{\"name\":\"buyReplacementPattern\",\"type\":\"bytes\"},{\"name\":\"sellCalldata\",\"type\":\"bytes\"},{\"name\":\"sellReplacementPattern\",\"type\":\"bytes\"}],\"name\":\"orderCalldataCanMatch\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"merkleData\",\"type\":\"bytes32[]\"}],\"name\":\"splitToMerkleRootAndProof\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"},{\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"incrementNonce\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"basePrice\",\"type\":\"uint256\"},{\"name\":\"extra\",\"type\":\"uint256\"},{\"name\":\"listingTime\",\"type\":\"uint256\"},{\"name\":\"expirationTime\",\"type\":\"uint256\"}],\"name\":\"calculateFinalPrice\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"protocolFeeRecipient\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleData\",\"type\":\"bytes32[2]\"}],\"name\":\"approveOrder_\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"nonces\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"cancelledOrFinalized\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"cancelOrder_\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"protocolFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"hashToSign_\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"_deriveDomainSeparator\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"},{\"name\":\"rssMetadata\",\"type\":\"bytes32\"}],\"name\":\"atomicMatch_\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newExchangeFeeRate\",\"type\":\"uint256\"}],\"name\":\"changeExchangeFeeRate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"INVERSE_BASIS_POINT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[10]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"validateOrderParameters_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"approvedOrders\",\"outputs\":[{\"name\":\"approved\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"makerRelayerFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"merkleValidatorContract\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"pendingGovernor_\",\"type\":\"address\"}],\"name\":\"setPendingGovernor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"tokenTransferProxyAddress\",\"type\":\"address\"},{\"name\":\"protocolFeeAddress\",\"type\":\"address\"},{\"name\":\"merkleValidatorAddress\",\"type\":\"address\"},{\"name\":\"royaltyRegisterHubAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"exchange\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"makerRelayerFeeRecipient\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"side\",\"type\":\"uint8\"},{\"indexed\":false,\"name\":\"saleKind\",\"type\":\"uint8\"},{\"indexed\":false,\"name\":\"nftAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"tokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"ipfsHash\",\"type\":\"bytes32\"}],\"name\":\"OrderApprovedPartOne\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"calldata\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"staticTarget\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"paymentToken\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"basePrice\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"extra\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"listingTime\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"expirationTime\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"salt\",\"type\":\"uint256\"}],\"name\":\"OrderApprovedPartTwo\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"OrderCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"buyHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"sellHash\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":true,\"name\":\"metadata\",\"type\":\"bytes32\"}],\"name\":\"OrdersMatched\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"newNonce\",\"type\":\"uint256\"}],\"name\":\"NonceIncremented\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousGovernor\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"newPendingGovernor\",\"type\":\"address\"}],\"name\":\"NewPendingGovernor\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"}],\"name\":\"OwnershipRenounced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"}]"
+const NiftyconnectexchangeABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"tokenTransferProxy\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"exchangeFeeRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"target\",\"type\":\"address\"},{\"name\":\"calldata\",\"type\":\"bytes\"},{\"name\":\"extradata\",\"type\":\"bytes\"}],\"name\":\"staticCall\",\"outputs\":[{\"name\":\"result\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"DOMAIN_SEPARATOR\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newTakerRelayerFeeShare\",\"type\":\"uint256\"},{\"name\":\"newMakerRelayerFeeShare\",\"type\":\"uint256\"},{\"name\":\"newProtocolFeeShare\",\"type\":\"uint256\"}],\"name\":\"changeTakerRelayerFeeShare\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"royaltyRegisterHub\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"takerRelayerFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newProtocolFeeRecipient\",\"type\":\"address\"}],\"name\":\"changeProtocolFeeRecipient\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"incrementNonce\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"protocolFeeRecipient\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"nonces\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"cancelledOrFinalized\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"protocolFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newExchangeFeeRate\",\"type\":\"uint256\"}],\"name\":\"changeExchangeFeeRate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"INVERSE_BASIS_POINT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"MAXIMUM_EXCHANGE_RATE\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"approvedOrders\",\"outputs\":[{\"name\":\"approved\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"makerRelayerFeeShare\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"merkleValidatorContract\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"pendingGovernor_\",\"type\":\"address\"}],\"name\":\"setPendingGovernor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"tokenTransferProxyAddress\",\"type\":\"address\"},{\"name\":\"protocolFeeAddress\",\"type\":\"address\"},{\"name\":\"merkleValidatorAddress\",\"type\":\"address\"},{\"name\":\"royaltyRegisterHubAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"exchange\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"makerRelayerFeeRecipient\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"side\",\"type\":\"uint8\"},{\"indexed\":false,\"name\":\"saleKind\",\"type\":\"uint8\"},{\"indexed\":false,\"name\":\"nftAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"tokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"ipfsHash\",\"type\":\"bytes32\"}],\"name\":\"OrderApprovedPartOne\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"calldata\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"staticTarget\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"indexed\":false,\"name\":\"paymentToken\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"basePrice\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"extra\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"listingTime\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"expirationTime\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"salt\",\"type\":\"uint256\"}],\"name\":\"OrderApprovedPartTwo\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"OrderCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"buyHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"sellHash\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"makerRelayerFeeRecipient\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"takerRelayerFeeRecipient\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":true,\"name\":\"metadata\",\"type\":\"bytes32\"}],\"name\":\"OrdersMatched\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"newNonce\",\"type\":\"uint256\"}],\"name\":\"NonceIncremented\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousGovernor\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"newPendingGovernor\",\"type\":\"address\"}],\"name\":\"NewPendingGovernor\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"}],\"name\":\"OwnershipRenounced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[{\"name\":\"selector\",\"type\":\"uint256\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"nftAddress\",\"type\":\"address\"},{\"name\":\"tokenId\",\"type\":\"uint256\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"name\":\"buildCallData\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"array\",\"type\":\"bytes\"},{\"name\":\"desired\",\"type\":\"bytes\"},{\"name\":\"mask\",\"type\":\"bytes\"}],\"name\":\"guardedArrayReplace\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"basePrice\",\"type\":\"uint256\"},{\"name\":\"extra\",\"type\":\"uint256\"},{\"name\":\"listingTime\",\"type\":\"uint256\"},{\"name\":\"expirationTime\",\"type\":\"uint256\"}],\"name\":\"calculateFinalPrice\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"hashToSign_\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"validateOrderParameters_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"validateOrder_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleData\",\"type\":\"bytes32[2]\"}],\"name\":\"makeOrder_\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"cancelOrder_\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[9]\"},{\"name\":\"uints\",\"type\":\"uint256[9]\"},{\"name\":\"side\",\"type\":\"uint8\"},{\"name\":\"saleKind\",\"type\":\"uint8\"},{\"name\":\"replacementPattern\",\"type\":\"bytes\"},{\"name\":\"staticExtradata\",\"type\":\"bytes\"},{\"name\":\"merkleRoot\",\"type\":\"bytes32\"}],\"name\":\"calculateCurrentPrice_\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"}],\"name\":\"ordersCanMatch_\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"buyCalldata\",\"type\":\"bytes\"},{\"name\":\"buyReplacementPattern\",\"type\":\"bytes\"},{\"name\":\"sellCalldata\",\"type\":\"bytes\"},{\"name\":\"sellReplacementPattern\",\"type\":\"bytes\"}],\"name\":\"orderCalldataCanMatch\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"}],\"name\":\"calculateMatchPrice_\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addrs\",\"type\":\"address[16]\"},{\"name\":\"uints\",\"type\":\"uint256[12]\"},{\"name\":\"sidesKinds\",\"type\":\"uint8[4]\"},{\"name\":\"calldataBuy\",\"type\":\"bytes\"},{\"name\":\"calldataSell\",\"type\":\"bytes\"},{\"name\":\"replacementPatternBuy\",\"type\":\"bytes\"},{\"name\":\"replacementPatternSell\",\"type\":\"bytes\"},{\"name\":\"staticExtradataBuy\",\"type\":\"bytes\"},{\"name\":\"staticExtradataSell\",\"type\":\"bytes\"},{\"name\":\"rssMetadata\",\"type\":\"bytes32\"}],\"name\":\"takeOrder_\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"}]"
 
 // Niftyconnectexchange is an auto generated Go binding around an Ethereum contract.
 type Niftyconnectexchange struct {
@@ -224,30 +224,30 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) INVERSEBASISPOIN
 	return _Niftyconnectexchange.Contract.INVERSEBASISPOINT(&_Niftyconnectexchange.CallOpts)
 }
 
-// DeriveDomainSeparator is a free data retrieval call binding the contract method 0x9f12b9d9.
+// MAXIMUMEXCHANGERATE is a free data retrieval call binding the contract method 0xe4e098f7.
 //
-// Solidity: function _deriveDomainSeparator() view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) DeriveDomainSeparator(opts *bind.CallOpts) ([32]byte, error) {
+// Solidity: function MAXIMUM_EXCHANGE_RATE() view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeCaller) MAXIMUMEXCHANGERATE(opts *bind.CallOpts) (*big.Int, error) {
 	var (
-		ret0 = new([32]byte)
+		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Niftyconnectexchange.contract.Call(opts, out, "_deriveDomainSeparator")
+	err := _Niftyconnectexchange.contract.Call(opts, out, "MAXIMUM_EXCHANGE_RATE")
 	return *ret0, err
 }
 
-// DeriveDomainSeparator is a free data retrieval call binding the contract method 0x9f12b9d9.
+// MAXIMUMEXCHANGERATE is a free data retrieval call binding the contract method 0xe4e098f7.
 //
-// Solidity: function _deriveDomainSeparator() view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) DeriveDomainSeparator() ([32]byte, error) {
-	return _Niftyconnectexchange.Contract.DeriveDomainSeparator(&_Niftyconnectexchange.CallOpts)
+// Solidity: function MAXIMUM_EXCHANGE_RATE() view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) MAXIMUMEXCHANGERATE() (*big.Int, error) {
+	return _Niftyconnectexchange.Contract.MAXIMUMEXCHANGERATE(&_Niftyconnectexchange.CallOpts)
 }
 
-// DeriveDomainSeparator is a free data retrieval call binding the contract method 0x9f12b9d9.
+// MAXIMUMEXCHANGERATE is a free data retrieval call binding the contract method 0xe4e098f7.
 //
-// Solidity: function _deriveDomainSeparator() view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) DeriveDomainSeparator() ([32]byte, error) {
-	return _Niftyconnectexchange.Contract.DeriveDomainSeparator(&_Niftyconnectexchange.CallOpts)
+// Solidity: function MAXIMUM_EXCHANGE_RATE() view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) MAXIMUMEXCHANGERATE() (*big.Int, error) {
+	return _Niftyconnectexchange.Contract.MAXIMUMEXCHANGERATE(&_Niftyconnectexchange.CallOpts)
 }
 
 // ApprovedOrders is a free data retrieval call binding the contract method 0xe57d4adb.
@@ -302,10 +302,10 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) BuildCallData(se
 	return _Niftyconnectexchange.Contract.BuildCallData(&_Niftyconnectexchange.CallOpts, selector, from, to, nftAddress, tokenId, amount, merkleRoot, merkleProof)
 }
 
-// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x39a57083.
+// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x1f86dbc0.
 //
-// Solidity: function calculateCurrentPrice_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) CalculateCurrentPrice(opts *bind.CallOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
+// Solidity: function calculateCurrentPrice_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeCaller) CalculateCurrentPrice(opts *bind.CallOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
@@ -314,17 +314,17 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCaller) CalculateCurrentPrice(o
 	return *ret0, err
 }
 
-// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x39a57083.
+// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x1f86dbc0.
 //
-// Solidity: function calculateCurrentPrice_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) CalculateCurrentPrice(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
+// Solidity: function calculateCurrentPrice_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) CalculateCurrentPrice(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
 	return _Niftyconnectexchange.Contract.CalculateCurrentPrice(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x39a57083.
+// CalculateCurrentPrice is a free data retrieval call binding the contract method 0x1f86dbc0.
 //
-// Solidity: function calculateCurrentPrice_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) CalculateCurrentPrice(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
+// Solidity: function calculateCurrentPrice_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(uint256)
+func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) CalculateCurrentPrice(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*big.Int, error) {
 	return _Niftyconnectexchange.Contract.CalculateCurrentPrice(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
@@ -484,10 +484,10 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) GuardedArrayRepl
 	return _Niftyconnectexchange.Contract.GuardedArrayReplace(&_Niftyconnectexchange.CallOpts, array, desired, mask)
 }
 
-// HashToSign is a free data retrieval call binding the contract method 0x9c13fc51.
+// HashToSign is a free data retrieval call binding the contract method 0x81da91a0.
 //
-// Solidity: function hashToSign_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) HashToSign(opts *bind.CallOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
+// Solidity: function hashToSign_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
+func (_Niftyconnectexchange *NiftyconnectexchangeCaller) HashToSign(opts *bind.CallOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
 	var (
 		ret0 = new([32]byte)
 	)
@@ -496,17 +496,17 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCaller) HashToSign(opts *bind.C
 	return *ret0, err
 }
 
-// HashToSign is a free data retrieval call binding the contract method 0x9c13fc51.
+// HashToSign is a free data retrieval call binding the contract method 0x81da91a0.
 //
-// Solidity: function hashToSign_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) HashToSign(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
+// Solidity: function hashToSign_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) HashToSign(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
 	return _Niftyconnectexchange.Contract.HashToSign(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// HashToSign is a free data retrieval call binding the contract method 0x9c13fc51.
+// HashToSign is a free data retrieval call binding the contract method 0x81da91a0.
 //
-// Solidity: function hashToSign_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) HashToSign(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
+// Solidity: function hashToSign_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bytes32)
+func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) HashToSign(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) ([32]byte, error) {
 	return _Niftyconnectexchange.Contract.HashToSign(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
@@ -796,36 +796,6 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) RoyaltyRegisterH
 	return _Niftyconnectexchange.Contract.RoyaltyRegisterHub(&_Niftyconnectexchange.CallOpts)
 }
 
-// SplitToMerkleRootAndProof is a free data retrieval call binding the contract method 0x5e969d71.
-//
-// Solidity: function splitToMerkleRootAndProof(bytes32[] merkleData) view returns(bytes32, bytes32[])
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) SplitToMerkleRootAndProof(opts *bind.CallOpts, merkleData [][32]byte) ([32]byte, [][32]byte, error) {
-	var (
-		ret0 = new([32]byte)
-		ret1 = new([][32]byte)
-	)
-	out := &[]interface{}{
-		ret0,
-		ret1,
-	}
-	err := _Niftyconnectexchange.contract.Call(opts, out, "splitToMerkleRootAndProof", merkleData)
-	return *ret0, *ret1, err
-}
-
-// SplitToMerkleRootAndProof is a free data retrieval call binding the contract method 0x5e969d71.
-//
-// Solidity: function splitToMerkleRootAndProof(bytes32[] merkleData) view returns(bytes32, bytes32[])
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) SplitToMerkleRootAndProof(merkleData [][32]byte) ([32]byte, [][32]byte, error) {
-	return _Niftyconnectexchange.Contract.SplitToMerkleRootAndProof(&_Niftyconnectexchange.CallOpts, merkleData)
-}
-
-// SplitToMerkleRootAndProof is a free data retrieval call binding the contract method 0x5e969d71.
-//
-// Solidity: function splitToMerkleRootAndProof(bytes32[] merkleData) view returns(bytes32, bytes32[])
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) SplitToMerkleRootAndProof(merkleData [][32]byte) ([32]byte, [][32]byte, error) {
-	return _Niftyconnectexchange.Contract.SplitToMerkleRootAndProof(&_Niftyconnectexchange.CallOpts, merkleData)
-}
-
 // StaticCall is a free data retrieval call binding the contract method 0x10796a47.
 //
 // Solidity: function staticCall(address target, bytes calldata, bytes extradata) view returns(bool result)
@@ -904,10 +874,10 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) TokenTransferPro
 	return _Niftyconnectexchange.Contract.TokenTransferProxy(&_Niftyconnectexchange.CallOpts)
 }
 
-// ValidateOrderParameters is a free data retrieval call binding the contract method 0xcb46e44a.
+// ValidateOrderParameters is a free data retrieval call binding the contract method 0xe7b74b64.
 //
-// Solidity: function validateOrderParameters_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrderParameters(opts *bind.CallOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrderParameters_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrderParameters(opts *bind.CallOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	var (
 		ret0 = new(bool)
 	)
@@ -916,24 +886,24 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrderParameters
 	return *ret0, err
 }
 
-// ValidateOrderParameters is a free data retrieval call binding the contract method 0xcb46e44a.
+// ValidateOrderParameters is a free data retrieval call binding the contract method 0xe7b74b64.
 //
-// Solidity: function validateOrderParameters_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) ValidateOrderParameters(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrderParameters_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) ValidateOrderParameters(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	return _Niftyconnectexchange.Contract.ValidateOrderParameters(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// ValidateOrderParameters is a free data retrieval call binding the contract method 0xcb46e44a.
+// ValidateOrderParameters is a free data retrieval call binding the contract method 0xe7b74b64.
 //
-// Solidity: function validateOrderParameters_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) ValidateOrderParameters(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrderParameters_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) ValidateOrderParameters(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	return _Niftyconnectexchange.Contract.ValidateOrderParameters(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// ValidateOrder is a free data retrieval call binding the contract method 0x1255a890.
+// ValidateOrder is a free data retrieval call binding the contract method 0x3df6be13.
 //
-// Solidity: function validateOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrder(opts *bind.CallOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrder(opts *bind.CallOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	var (
 		ret0 = new(bool)
 	)
@@ -942,17 +912,17 @@ func (_Niftyconnectexchange *NiftyconnectexchangeCaller) ValidateOrder(opts *bin
 	return *ret0, err
 }
 
-// ValidateOrder is a free data retrieval call binding the contract method 0x1255a890.
+// ValidateOrder is a free data retrieval call binding the contract method 0x3df6be13.
 //
-// Solidity: function validateOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) ValidateOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) ValidateOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	return _Niftyconnectexchange.Contract.ValidateOrder(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// ValidateOrder is a free data retrieval call binding the contract method 0x1255a890.
+// ValidateOrder is a free data retrieval call binding the contract method 0x3df6be13.
 //
-// Solidity: function validateOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
-func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) ValidateOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
+// Solidity: function validateOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) view returns(bool)
+func (_Niftyconnectexchange *NiftyconnectexchangeCallerSession) ValidateOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (bool, error) {
 	return _Niftyconnectexchange.Contract.ValidateOrder(&_Niftyconnectexchange.CallOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
@@ -1003,66 +973,24 @@ func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) AcceptGovern
 	return _Niftyconnectexchange.Contract.AcceptGovernance(&_Niftyconnectexchange.TransactOpts)
 }
 
-// ApproveOrder is a paid mutator transaction binding the contract method 0x7292c8c0.
+// CancelOrder is a paid mutator transaction binding the contract method 0x94146166.
 //
-// Solidity: function approveOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) ApproveOrder(opts *bind.TransactOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.contract.Transact(opts, "approveOrder_", addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
-}
-
-// ApproveOrder is a paid mutator transaction binding the contract method 0x7292c8c0.
-//
-// Solidity: function approveOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) ApproveOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.Contract.ApproveOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
-}
-
-// ApproveOrder is a paid mutator transaction binding the contract method 0x7292c8c0.
-//
-// Solidity: function approveOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) ApproveOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.Contract.ApproveOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
-}
-
-// AtomicMatch is a paid mutator transaction binding the contract method 0xa8c74a58.
-//
-// Solidity: function atomicMatch_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) AtomicMatch(opts *bind.TransactOpts, addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.contract.Transact(opts, "atomicMatch_", addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
-}
-
-// AtomicMatch is a paid mutator transaction binding the contract method 0xa8c74a58.
-//
-// Solidity: function atomicMatch_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) AtomicMatch(addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.Contract.AtomicMatch(&_Niftyconnectexchange.TransactOpts, addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
-}
-
-// AtomicMatch is a paid mutator transaction binding the contract method 0xa8c74a58.
-//
-// Solidity: function atomicMatch_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) AtomicMatch(addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
-	return _Niftyconnectexchange.Contract.AtomicMatch(&_Niftyconnectexchange.TransactOpts, addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
-}
-
-// CancelOrder is a paid mutator transaction binding the contract method 0x80a4356c.
-//
-// Solidity: function cancelOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) CancelOrder(opts *bind.TransactOpts, addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
+// Solidity: function cancelOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) CancelOrder(opts *bind.TransactOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
 	return _Niftyconnectexchange.contract.Transact(opts, "cancelOrder_", addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// CancelOrder is a paid mutator transaction binding the contract method 0x80a4356c.
+// CancelOrder is a paid mutator transaction binding the contract method 0x94146166.
 //
-// Solidity: function cancelOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeSession) CancelOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
+// Solidity: function cancelOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) CancelOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
 	return _Niftyconnectexchange.Contract.CancelOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
-// CancelOrder is a paid mutator transaction binding the contract method 0x80a4356c.
+// CancelOrder is a paid mutator transaction binding the contract method 0x94146166.
 //
-// Solidity: function cancelOrder_(address[10] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
-func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) CancelOrder(addrs [10]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
+// Solidity: function cancelOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32 merkleRoot) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) CancelOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleRoot [32]byte) (*types.Transaction, error) {
 	return _Niftyconnectexchange.Contract.CancelOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleRoot)
 }
 
@@ -1150,6 +1078,27 @@ func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) IncrementNon
 	return _Niftyconnectexchange.Contract.IncrementNonce(&_Niftyconnectexchange.TransactOpts)
 }
 
+// MakeOrder is a paid mutator transaction binding the contract method 0x97cea71b.
+//
+// Solidity: function makeOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) MakeOrder(opts *bind.TransactOpts, addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.contract.Transact(opts, "makeOrder_", addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
+}
+
+// MakeOrder is a paid mutator transaction binding the contract method 0x97cea71b.
+//
+// Solidity: function makeOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) MakeOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.Contract.MakeOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
+}
+
+// MakeOrder is a paid mutator transaction binding the contract method 0x97cea71b.
+//
+// Solidity: function makeOrder_(address[9] addrs, uint256[9] uints, uint8 side, uint8 saleKind, bytes replacementPattern, bytes staticExtradata, bytes32[2] merkleData) returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) MakeOrder(addrs [9]common.Address, uints [9]*big.Int, side uint8, saleKind uint8, replacementPattern []byte, staticExtradata []byte, merkleData [2][32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.Contract.MakeOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, side, saleKind, replacementPattern, staticExtradata, merkleData)
+}
+
 // RenounceOwnership is a paid mutator transaction binding the contract method 0x715018a6.
 //
 // Solidity: function renounceOwnership() returns()
@@ -1190,6 +1139,27 @@ func (_Niftyconnectexchange *NiftyconnectexchangeSession) SetPendingGovernor(pen
 // Solidity: function setPendingGovernor(address pendingGovernor_) returns()
 func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) SetPendingGovernor(pendingGovernor_ common.Address) (*types.Transaction, error) {
 	return _Niftyconnectexchange.Contract.SetPendingGovernor(&_Niftyconnectexchange.TransactOpts, pendingGovernor_)
+}
+
+// TakeOrder is a paid mutator transaction binding the contract method 0x7da26f55.
+//
+// Solidity: function takeOrder_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactor) TakeOrder(opts *bind.TransactOpts, addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.contract.Transact(opts, "takeOrder_", addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
+}
+
+// TakeOrder is a paid mutator transaction binding the contract method 0x7da26f55.
+//
+// Solidity: function takeOrder_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeSession) TakeOrder(addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.Contract.TakeOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
+}
+
+// TakeOrder is a paid mutator transaction binding the contract method 0x7da26f55.
+//
+// Solidity: function takeOrder_(address[16] addrs, uint256[12] uints, uint8[4] sidesKinds, bytes calldataBuy, bytes calldataSell, bytes replacementPatternBuy, bytes replacementPatternSell, bytes staticExtradataBuy, bytes staticExtradataSell, bytes32 rssMetadata) payable returns()
+func (_Niftyconnectexchange *NiftyconnectexchangeTransactorSession) TakeOrder(addrs [16]common.Address, uints [12]*big.Int, sidesKinds [4]uint8, calldataBuy []byte, calldataSell []byte, replacementPatternBuy []byte, replacementPatternSell []byte, staticExtradataBuy []byte, staticExtradataSell []byte, rssMetadata [32]byte) (*types.Transaction, error) {
+	return _Niftyconnectexchange.Contract.TakeOrder(&_Niftyconnectexchange.TransactOpts, addrs, uints, sidesKinds, calldataBuy, calldataSell, replacementPatternBuy, replacementPatternSell, staticExtradataBuy, staticExtradataSell, rssMetadata)
 }
 
 // TransferOwnership is a paid mutator transaction binding the contract method 0xf2fde38b.
@@ -2189,18 +2159,20 @@ func (it *NiftyconnectexchangeOrdersMatchedIterator) Close() error {
 
 // NiftyconnectexchangeOrdersMatched represents a OrdersMatched event raised by the Niftyconnectexchange contract.
 type NiftyconnectexchangeOrdersMatched struct {
-	BuyHash  [32]byte
-	SellHash [32]byte
-	Maker    common.Address
-	Taker    common.Address
-	Price    *big.Int
-	Metadata [32]byte
-	Raw      types.Log // Blockchain specific contextual infos
+	BuyHash                  [32]byte
+	SellHash                 [32]byte
+	Maker                    common.Address
+	Taker                    common.Address
+	MakerRelayerFeeRecipient common.Address
+	TakerRelayerFeeRecipient common.Address
+	Price                    *big.Int
+	Metadata                 [32]byte
+	Raw                      types.Log // Blockchain specific contextual infos
 }
 
-// FilterOrdersMatched is a free log retrieval operation binding the contract event 0xc4109843e0b7d514e4c093114b863f8e7d8d9a458c372cd51bfe526b588006c9.
+// FilterOrdersMatched is a free log retrieval operation binding the contract event 0x5e89bc5bf129d9595ae14697a763c17e6acd67579b9f1f4fa548f57ec762a057.
 //
-// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, uint256 price, bytes32 indexed metadata)
+// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, address makerRelayerFeeRecipient, address takerRelayerFeeRecipient, uint256 price, bytes32 indexed metadata)
 func (_Niftyconnectexchange *NiftyconnectexchangeFilterer) FilterOrdersMatched(opts *bind.FilterOpts, maker []common.Address, taker []common.Address, metadata [][32]byte) (*NiftyconnectexchangeOrdersMatchedIterator, error) {
 
 	var makerRule []interface{}
@@ -2224,9 +2196,9 @@ func (_Niftyconnectexchange *NiftyconnectexchangeFilterer) FilterOrdersMatched(o
 	return &NiftyconnectexchangeOrdersMatchedIterator{contract: _Niftyconnectexchange.contract, event: "OrdersMatched", logs: logs, sub: sub}, nil
 }
 
-// WatchOrdersMatched is a free log subscription operation binding the contract event 0xc4109843e0b7d514e4c093114b863f8e7d8d9a458c372cd51bfe526b588006c9.
+// WatchOrdersMatched is a free log subscription operation binding the contract event 0x5e89bc5bf129d9595ae14697a763c17e6acd67579b9f1f4fa548f57ec762a057.
 //
-// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, uint256 price, bytes32 indexed metadata)
+// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, address makerRelayerFeeRecipient, address takerRelayerFeeRecipient, uint256 price, bytes32 indexed metadata)
 func (_Niftyconnectexchange *NiftyconnectexchangeFilterer) WatchOrdersMatched(opts *bind.WatchOpts, sink chan<- *NiftyconnectexchangeOrdersMatched, maker []common.Address, taker []common.Address, metadata [][32]byte) (event.Subscription, error) {
 
 	var makerRule []interface{}
@@ -2275,9 +2247,9 @@ func (_Niftyconnectexchange *NiftyconnectexchangeFilterer) WatchOrdersMatched(op
 	}), nil
 }
 
-// ParseOrdersMatched is a log parse operation binding the contract event 0xc4109843e0b7d514e4c093114b863f8e7d8d9a458c372cd51bfe526b588006c9.
+// ParseOrdersMatched is a log parse operation binding the contract event 0x5e89bc5bf129d9595ae14697a763c17e6acd67579b9f1f4fa548f57ec762a057.
 //
-// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, uint256 price, bytes32 indexed metadata)
+// Solidity: event OrdersMatched(bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, address makerRelayerFeeRecipient, address takerRelayerFeeRecipient, uint256 price, bytes32 indexed metadata)
 func (_Niftyconnectexchange *NiftyconnectexchangeFilterer) ParseOrdersMatched(log types.Log) (*NiftyconnectexchangeOrdersMatched, error) {
 	event := new(NiftyconnectexchangeOrdersMatched)
 	if err := _Niftyconnectexchange.contract.UnpackLog(event, "OrdersMatched", log); err != nil {
