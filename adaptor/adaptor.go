@@ -7,8 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/niftyConnect/order-synchronizer/database"
-
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -133,17 +131,17 @@ func (adaptorInst *Adaptor) ExtractEvents(initHeightStep int64, latestHeight, to
 		localcmm.Logger.Debugf("Blockchain %s, filter event between %d, %d, height step %d",
 			adaptorInst.blockchain, startHeight, endHeight, heightStep)
 	retry:
-		events, err := func() (transferEvents []interface{}, err error) {
+		events, err := func() (niftyConnectEvents []interface{}, err error) {
 			defer func() {
 				if r := recover(); r != nil {
 					err = fmt.Errorf(fmt.Sprintf("%v", r))
 				}
 			}()
-			transferEvents, err = adaptorInst.getNiftyConnectEventFromBlockRange(startHeight, endHeight)
+			niftyConnectEvents, err = adaptorInst.getNiftyConnectEventFromBlockRange(startHeight, endHeight)
 			if err != nil {
 				return nil, fmt.Errorf("blockchain %s, extract NiftyConnect event err: %s", adaptorInst.blockchain, err)
 			}
-			return transferEvents, nil
+			return niftyConnectEvents, nil
 		}()
 		if err != nil && strings.Contains(err.Error(), "query returned more than 10000 results") {
 			heightStep = heightStep * 4 / 5
@@ -169,60 +167,45 @@ func (adaptorInst *Adaptor) parseEventsFromLogs(logs []types.Log) ([]interface{}
 	for _, log := range logs {
 		switch log.Topics[0].String() {
 		case adaptorInst.niftyConnectExchangeABI.Events[orderApprovedPartOneEvent].ID().String():
-			var orderApprovedPartOne database.OrderApprovedPartOne
+			var orderApprovedPartOne OrderApprovedPartOne
 			err := niftyConnectContract.UnpackLog(&orderApprovedPartOne, orderApprovedPartOneEvent, log)
 			if err != nil {
 				localcmm.Logger.Errorf("UnpackLog event %s err: %s", orderApprovedPartOneEvent, err.Error())
 				continue
 			}
-			orderApprovedPartOne.Blockchain = adaptorInst.blockchain
-			orderApprovedPartOne.TxHash = log.TxHash.String()
-			orderApprovedPartOne.Height = log.BlockNumber
-			niftyConnectEvents = append(niftyConnectEvents, orderApprovedPartOne)
+			niftyConnectEvents = append(niftyConnectEvents, orderApprovedPartOne.toModelType(adaptorInst.blockchain, log.TxHash.String(), log.BlockNumber))
 		case adaptorInst.niftyConnectExchangeABI.Events[orderApprovedPartTwoEvent].ID().String():
-			var orderApprovedPartTwo database.OrderApprovedPartTwo
+			var orderApprovedPartTwo OrderApprovedPartTwo
 			err := niftyConnectContract.UnpackLog(&orderApprovedPartTwo, orderApprovedPartTwoEvent, log)
 			if err != nil {
 				localcmm.Logger.Errorf("UnpackLog event %s err: %s", orderApprovedPartTwoEvent, err.Error())
 				continue
 			}
-			orderApprovedPartTwo.Blockchain = adaptorInst.blockchain
-			orderApprovedPartTwo.TxHash = log.TxHash.String()
-			orderApprovedPartTwo.Height = log.BlockNumber
-			niftyConnectEvents = append(niftyConnectEvents, orderApprovedPartTwo)
+			niftyConnectEvents = append(niftyConnectEvents, orderApprovedPartTwo.toModelType(adaptorInst.blockchain, log.TxHash.String(), log.BlockNumber))
 		case adaptorInst.niftyConnectExchangeABI.Events[orderCancelledEvent].ID().String():
-			var orderCancelled database.OrderCancelled
+			var orderCancelled OrderCancelled
 			err := niftyConnectContract.UnpackLog(&orderCancelled, orderCancelledEvent, log)
 			if err != nil {
 				localcmm.Logger.Errorf("UnpackLog event %s err: %s", orderCancelledEvent, err.Error())
 				continue
 			}
-			orderCancelled.Blockchain = adaptorInst.blockchain
-			orderCancelled.TxHash = log.TxHash.String()
-			orderCancelled.Height = log.BlockNumber
-			niftyConnectEvents = append(niftyConnectEvents, orderCancelled)
+			niftyConnectEvents = append(niftyConnectEvents, orderCancelled.toModelType(adaptorInst.blockchain, log.TxHash.String(), log.BlockNumber))
 		case adaptorInst.niftyConnectExchangeABI.Events[ordersMatchedEvent].ID().String():
-			var ordersMatched database.OrdersMatched
+			var ordersMatched OrdersMatched
 			err := niftyConnectContract.UnpackLog(&ordersMatched, ordersMatchedEvent, log)
 			if err != nil {
 				localcmm.Logger.Errorf("UnpackLog event %s err: %s", ordersMatchedEvent, err.Error())
 				continue
 			}
-			ordersMatched.Blockchain = adaptorInst.blockchain
-			ordersMatched.TxHash = log.TxHash.String()
-			ordersMatched.Height = log.BlockNumber
-			niftyConnectEvents = append(niftyConnectEvents, ordersMatched)
+			niftyConnectEvents = append(niftyConnectEvents, ordersMatched.toModelType(adaptorInst.blockchain, log.TxHash.String(), log.BlockNumber))
 		case adaptorInst.niftyConnectExchangeABI.Events[nonceIncrementedEvent].ID().String():
-			var nonceIncremented database.NonceIncremented
+			var nonceIncremented NonceIncremented
 			err := niftyConnectContract.UnpackLog(&nonceIncremented, nonceIncrementedEvent, log)
 			if err != nil {
 				localcmm.Logger.Errorf("UnpackLog event %s err: %s", nonceIncrementedEvent, err.Error())
 				continue
 			}
-			nonceIncremented.Blockchain = adaptorInst.blockchain
-			nonceIncremented.TxHash = log.TxHash.String()
-			nonceIncremented.Height = log.BlockNumber
-			niftyConnectEvents = append(niftyConnectEvents, nonceIncremented)
+			niftyConnectEvents = append(niftyConnectEvents, nonceIncremented.toModelType(adaptorInst.blockchain, log.TxHash.String(), log.BlockNumber))
 		default:
 			localcmm.Logger.Errorf("Unexpected event topic: %s", log.Topics[0].String())
 		}

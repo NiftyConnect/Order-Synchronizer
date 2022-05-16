@@ -29,6 +29,6 @@ func (l *SyncStatus) BeforeCreate() (err error) {
 func (SyncStatus) InitTable(db *gorm.DB) {
 	if !db.HasTable(&SyncStatus{}) {
 		db.CreateTable(&SyncStatus{})
-		db.Model(&SyncStatus{}).AddUniqueIndex("idx_"+SyncStatus{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&SyncStatus{}).AddIndex("idx_"+SyncStatus{}.TableName()+"_blockchain", "blockchain")
 	}
 }

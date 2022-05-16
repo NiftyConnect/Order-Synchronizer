@@ -2,15 +2,16 @@ package command
 
 import (
 	"fmt"
+
 	"github.com/jinzhu/gorm"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 	"github.com/niftyConnect/order-synchronizer/common"
 	"github.com/niftyConnect/order-synchronizer/config"
 	"github.com/niftyConnect/order-synchronizer/database"
 	"github.com/niftyConnect/order-synchronizer/synchronizer"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
-
 
 func readConfigAndInit() *config.Config {
 	var cfg *config.Config
@@ -30,8 +31,10 @@ func Start() *cobra.Command {
 		Use:   "start",
 		Short: "start order synchronizer",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			blockchain := viper.GetString(common.FlagBlockChain)
+
 			cfg := readConfigAndInit()
-			blockchain := viper.GetString(common.FlagConfigPath)
+
 			var db *gorm.DB
 			if cfg.DBConfig.DBPath != "" {
 				var err error
@@ -42,6 +45,7 @@ func Start() *cobra.Command {
 				defer db.Close()
 				database.InitTables(db)
 			}
+
 			syncInst, err := synchronizer.NewSynchronizer(db, cfg, blockchain)
 			if err != nil {
 				panic(err)

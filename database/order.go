@@ -56,18 +56,18 @@ func (NiftyConnectOrder) InitTable(db *gorm.DB) {
 		db.CreateTable(&NiftyConnectOrder{})
 		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_order_hash", "order_hash")
 
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_nft_address_token_id", "nft_address", "token_id")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_nft_address", "nft_address")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_token_id", "token_id")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_nft_address_token_id", "nft_address", "token_id")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_nft_address", "nft_address")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_token_id", "token_id")
 
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_maker", "maker")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_side", "side")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_sale_kind", "sale_kind")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_maker", "maker")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_side", "side")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_sale_kind", "sale_kind")
 
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_cancelled", "is_cancelled")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_expired", "is_expired")
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_finalized", "is_finalized")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_cancelled", "is_cancelled")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_expired", "is_expired")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_finalized", "is_finalized")
 
-		db.Model(&NiftyConnectOrder{}).AddUniqueIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain", "blockchain")
 	}
 }

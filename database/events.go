@@ -1,9 +1,6 @@
 package database
 
 import (
-	"math/big"
-
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,16 +10,16 @@ type OrderApprovedPartOne struct {
 	TxHash     string
 	Height     uint64
 
-	Hash                     common.Hash
-	Exchange                 common.Address
-	Maker                    common.Address
-	Taker                    common.Address
-	MakerRelayerFeeRecipient common.Address
+	Hash                     string
+	Exchange                 string
+	Maker                    string
+	Taker                    string
+	MakerRelayerFeeRecipient string
 	Side                     uint8
 	SaleKind                 uint8
-	NftAddress               common.Address
-	TokenId                  *big.Int
-	IpfsHash                 common.Hash
+	NftAddress               string
+	TokenId                  string
+	IpfsHash                 string
 }
 
 func (OrderApprovedPartOne) TableName() string {
@@ -32,8 +29,8 @@ func (OrderApprovedPartOne) TableName() string {
 func (OrderApprovedPartOne) InitTable(db *gorm.DB) {
 	if !db.HasTable(&OrderApprovedPartOne{}) {
 		db.CreateTable(&OrderApprovedPartOne{})
-		db.Model(&OrderApprovedPartOne{}).AddUniqueIndex("idx_"+OrderApprovedPartOne{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&OrderApprovedPartOne{}).AddUniqueIndex("idx_"+OrderApprovedPartOne{}.TableName()+"_height", "height")
+		db.Model(&OrderApprovedPartOne{}).AddIndex("idx_"+OrderApprovedPartOne{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&OrderApprovedPartOne{}).AddIndex("idx_"+OrderApprovedPartOne{}.TableName()+"_height", "height")
 	}
 }
 
@@ -43,17 +40,17 @@ type OrderApprovedPartTwo struct {
 	TxHash     string
 	Height     uint64
 
-	Hash               common.Hash
-	Calldata           []byte
-	ReplacementPattern []byte
-	StaticTarget       common.Address
-	StaticExtradata    []byte
-	PaymentToken       common.Address
-	BasePrice          *big.Int
-	Extra              *big.Int
-	ListingTime        *big.Int
-	ExpirationTime     *big.Int
-	Salt               *big.Int
+	Hash               string
+	Calldata           string
+	ReplacementPattern string
+	StaticTarget       string
+	StaticExtradata    string
+	PaymentToken       string
+	BasePrice          string
+	Extra              string
+	ListingTime        string
+	ExpirationTime     string
+	Salt               string
 }
 
 func (OrderApprovedPartTwo) TableName() string {
@@ -63,8 +60,8 @@ func (OrderApprovedPartTwo) TableName() string {
 func (OrderApprovedPartTwo) InitTable(db *gorm.DB) {
 	if !db.HasTable(&OrderApprovedPartTwo{}) {
 		db.CreateTable(&OrderApprovedPartTwo{})
-		db.Model(&OrderApprovedPartTwo{}).AddUniqueIndex("idx_"+OrderApprovedPartTwo{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&OrderApprovedPartTwo{}).AddUniqueIndex("idx_"+OrderApprovedPartTwo{}.TableName()+"_height", "height")
+		db.Model(&OrderApprovedPartTwo{}).AddIndex("idx_"+OrderApprovedPartTwo{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&OrderApprovedPartTwo{}).AddIndex("idx_"+OrderApprovedPartTwo{}.TableName()+"_height", "height")
 	}
 }
 
@@ -74,7 +71,7 @@ type OrderCancelled struct {
 	TxHash     string
 	Height     uint64
 
-	Hash common.Hash
+	Hash string
 }
 
 func (OrderCancelled) TableName() string {
@@ -84,8 +81,8 @@ func (OrderCancelled) TableName() string {
 func (OrderCancelled) InitTable(db *gorm.DB) {
 	if !db.HasTable(&OrderCancelled{}) {
 		db.CreateTable(&OrderCancelled{})
-		db.Model(&OrderCancelled{}).AddUniqueIndex("idx_"+OrderCancelled{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&OrderCancelled{}).AddUniqueIndex("idx_"+OrderCancelled{}.TableName()+"_height", "height")
+		db.Model(&OrderCancelled{}).AddIndex("idx_"+OrderCancelled{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&OrderCancelled{}).AddIndex("idx_"+OrderCancelled{}.TableName()+"_height", "height")
 	}
 }
 
@@ -95,14 +92,14 @@ type OrdersMatched struct {
 	TxHash     string
 	Height     uint64
 
-	BuyHash                  common.Hash
-	SellHash                 common.Hash
-	Maker                    common.Address
-	Taker                    common.Address
-	MakerRelayerFeeRecipient common.Address
-	TakerRelayerFeeRecipient common.Address
-	Price                    *big.Int
-	Metadata                 common.Hash
+	BuyHash                  string
+	SellHash                 string
+	Maker                    string
+	Taker                    string
+	MakerRelayerFeeRecipient string
+	TakerRelayerFeeRecipient string
+	Price                    string
+	Metadata                 string
 }
 
 func (OrdersMatched) TableName() string {
@@ -112,8 +109,8 @@ func (OrdersMatched) TableName() string {
 func (OrdersMatched) InitTable(db *gorm.DB) {
 	if !db.HasTable(&OrdersMatched{}) {
 		db.CreateTable(&OrdersMatched{})
-		db.Model(&OrdersMatched{}).AddUniqueIndex("idx_"+OrdersMatched{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&OrdersMatched{}).AddUniqueIndex("idx_"+OrdersMatched{}.TableName()+"_height", "height")
+		db.Model(&OrdersMatched{}).AddIndex("idx_"+OrdersMatched{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&OrdersMatched{}).AddIndex("idx_"+OrdersMatched{}.TableName()+"_height", "height")
 	}
 }
 
@@ -123,8 +120,8 @@ type NonceIncremented struct {
 	TxHash     string
 	Height     uint64
 
-	Maker    common.Address
-	NewNonce *big.Int
+	Maker    string
+	NewNonce string
 }
 
 func (NonceIncremented) TableName() string {
@@ -134,7 +131,7 @@ func (NonceIncremented) TableName() string {
 func (NonceIncremented) InitTable(db *gorm.DB) {
 	if !db.HasTable(&NonceIncremented{}) {
 		db.CreateTable(&NonceIncremented{})
-		db.Model(&NonceIncremented{}).AddUniqueIndex("idx_"+NonceIncremented{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&NonceIncremented{}).AddUniqueIndex("idx_"+NonceIncremented{}.TableName()+"_height", "height")
+		db.Model(&NonceIncremented{}).AddIndex("idx_"+NonceIncremented{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&NonceIncremented{}).AddIndex("idx_"+NonceIncremented{}.TableName()+"_height", "height")
 	}
 }

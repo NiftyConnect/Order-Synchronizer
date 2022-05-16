@@ -28,7 +28,7 @@ func (l *BlockLog) BeforeCreate() (err error) {
 func (BlockLog) InitTable(db *gorm.DB) {
 	if !db.HasTable(&BlockLog{}) {
 		db.CreateTable(&BlockLog{})
-		db.Model(&BlockLog{}).AddUniqueIndex("idx_"+BlockLog{}.TableName()+"_blockchain", "blockchain")
-		db.Model(&BlockLog{}).AddUniqueIndex("idx_"+BlockLog{}.TableName()+"_height", "height")
+		db.Model(&BlockLog{}).AddIndex("idx_"+BlockLog{}.TableName()+"_blockchain", "blockchain")
+		db.Model(&BlockLog{}).AddIndex("idx_"+BlockLog{}.TableName()+"_height", "height")
 	}
 }

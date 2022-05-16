@@ -62,6 +62,7 @@ func (syncInst *Synchronizer) fetchDaemon(startHeight int64) {
 	}
 
 	if curBlockLog == nil || latestHeader.Number.Int64() > curBlockLog.Height+syncInst.cfg.HeightStep {
+		localcmm.Logger.Infof("Extract history events")
 		events, err := syncInst.adaptorInst.ExtractEvents(syncInst.cfg.HeightStep, syncInst.cfg.StartHeight, latestHeader.Number.Int64())
 		if err != nil {
 			panic(fmt.Sprintf("extract events from %d to %d, error: %s", syncInst.cfg.StartHeight, uint64(latestHeader.Number.Int64()), err.Error()))
@@ -79,6 +80,7 @@ func (syncInst *Synchronizer) fetchDaemon(startHeight int64) {
 		}
 	}
 
+	localcmm.Logger.Infof("Start fetchDaemon")
 	for {
 		func() {
 
@@ -226,10 +228,38 @@ func (syncInst *Synchronizer) saveBlockAndTxEvents(blockLog database.BlockLog, p
 		return err
 	}
 
-	for _, pack := range packages {
-		if err := tx.Create(&pack).Error; err != nil {
-			tx.Rollback()
-			return err
+	for _, ev := range packages {
+		switch ev.(type) {
+		case database.OrderApprovedPartOne:
+			event := ev.(database.OrderApprovedPartOne)
+			if err := tx.Create(&event).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
+		case database.OrderApprovedPartTwo:
+			event := ev.(database.OrderApprovedPartTwo)
+			if err := tx.Create(&event).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
+		case database.OrderCancelled:
+			event := ev.(database.OrderCancelled)
+			if err := tx.Create(&event).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
+		case database.OrdersMatched:
+			event := ev.(database.OrdersMatched)
+			if err := tx.Create(&event).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
+		case database.NonceIncremented:
+			event := ev.(database.NonceIncremented)
+			if err := tx.Create(&event).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
 		}
 	}
 	return tx.Commit().Error
