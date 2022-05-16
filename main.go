@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/niftyConnect/order-synchronizer/command"
 	cmm "github.com/niftyConnect/order-synchronizer/common"
 )
 
@@ -43,6 +44,7 @@ func main() {
 	rootCmd.PersistentFlags().String(cmm.FlagConfigPath, "", "config file path")
 
 	rootCmd.AddCommand(
+		command.Start(),
 	)
 	// prepare and add flags
 	rootCmd.PersistentPreRunE = concatCobraCmdFuncs(bindFlagsLoadViper, rootCmd.PersistentPreRunE)

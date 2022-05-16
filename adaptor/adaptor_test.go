@@ -1,11 +1,11 @@
 package adaptor
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/niftyConnect/order-synchronizer/config"
-	"github.com/stretchr/testify/require"
 )
 
 func TestExtractEvents(t *testing.T) {
@@ -23,7 +23,7 @@ func TestExtractEvents(t *testing.T) {
 		ChainConfig: config.ChainConfig{
 			ChainDetails: map[string]*config.ChainDetail{
 				"BSC": {
-					Providers:        []string{
+					Providers: []string{
 						"https://bsc-dataseed.binance.org",
 						"https://bsc-dataseed1.defibit.io",
 						"https://bsc-dataseed1.ninicoin.io",
@@ -49,33 +49,38 @@ func TestExtractEvents(t *testing.T) {
 			TelegramBotId:  "",
 			TelegramChatId: "",
 		},
+		DBConfig: config.DBConfig{
+			Dialect: "sqlite3",
+			DBPath:  "test.db",
+		},
 	}
-	clientHub, err := NewClientHub(cfg)
-	require.NoError(t, err)
 
-	adaptor, err := NewAdaptor(cfg, "ETH", clientHub)
-	require.NoError(t, err)
-
-	events, err := adaptor.ExtractEvents(1000, 14766550, 14784120)
-	require.NoError(t, err)
-
-	for _, ev := range events {
-		switch ev.(type) {
-		case OrderApprovedPartOne:
-			event := ev.(OrderApprovedPartOne)
-			t.Log("OrderApprovedPartOne: "+event.Hash.String())
-		case OrderApprovedPartTwo:
-			event := ev.(OrderApprovedPartTwo)
-			t.Log("OrderApprovedPartTwo: "+event.Hash.String())
-		case OrderCancelled:
-			event := ev.(OrderCancelled)
-			t.Log("OrderCancelled: "+event.Hash.String())
-		case OrdersMatched:
-			event := ev.(OrdersMatched)
-			t.Log("OrdersMatched: buyHash "+event.BuyHash.String()+" , sellHash ", event.SellHash.String())
-		case NonceIncremented:
-			event := ev.(NonceIncremented)
-			t.Log("NonceIncremented: "+event.Maker.String())
-		}
-	}
+	str, _ := json.Marshal(cfg)
+	t.Log(string(str))
+	//
+	//adaptor, err := NewAdaptor(cfg, "ETH")
+	//require.NoError(t, err)
+	//
+	//events, err := adaptor.ExtractEvents(1000, 14766550, 14784120)
+	//require.NoError(t, err)
+	//
+	//for _, ev := range events {
+	//	switch ev.(type) {
+	//	case database.OrderApprovedPartOne:
+	//		event := ev.(database.OrderApprovedPartOne)
+	//		t.Log("OrderApprovedPartOne: " + event.Hash.String())
+	//	case database.OrderApprovedPartTwo:
+	//		event := ev.(database.OrderApprovedPartTwo)
+	//		t.Log("OrderApprovedPartTwo: " + event.Hash.String())
+	//	case database.OrderCancelled:
+	//		event := ev.(database.OrderCancelled)
+	//		t.Log("OrderCancelled: " + event.Hash.String())
+	//	case database.OrdersMatched:
+	//		event := ev.(database.OrdersMatched)
+	//		t.Log("OrdersMatched: buyHash "+event.BuyHash.String()+" , sellHash ", event.SellHash.String())
+	//	case database.NonceIncremented:
+	//		event := ev.(database.NonceIncremented)
+	//		t.Log("NonceIncremented: " + event.Maker.String())
+	//	}
+	//}
 }

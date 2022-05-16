@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"io/ioutil"
 
 	"github.com/ethereum/go-ethereum/common"
 )
@@ -10,6 +11,7 @@ type Config struct {
 	LogConfig   LogConfig   `json:"log_config"`
 	ChainConfig ChainConfig `json:"chain_config"`
 	AlertConfig AlertConfig `json:"alert_config"`
+	DBConfig    DBConfig    `json:"db_config"`
 }
 
 type AlertConfig struct {
@@ -38,13 +40,25 @@ type ChainDetail struct {
 	StartHeight      int64          `json:"start_height"`
 	SleepWaitSecond  int64          `json:"sleep_wait_second"`
 	ConfirmBlocks    int64          `json:"confirm_blocks"`
+	HeightStep       int64          `json:"height_step"`
 	ExchangeContract common.Address `json:"exchange_contract"`
 }
 
-func ParseConfigFromJson(content string) *Config {
-	var config Config
-	if err := json.Unmarshal([]byte(content), &config); err != nil {
+type DBConfig struct {
+	Dialect string `json:"dialect"`
+	DBPath  string `json:"db_path"`
+}
+
+func ParseConfigFromFile(filePath string) *Config {
+	bz, err := ioutil.ReadFile(filePath)
+	if err != nil {
 		panic(err)
 	}
+
+	var config Config
+	if err := json.Unmarshal(bz, &config); err != nil {
+		panic(err)
+	}
+
 	return &config
 }

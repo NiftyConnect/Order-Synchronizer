@@ -1,5 +1,6 @@
 package common
 
 const (
-	FlagConfigPath         = "config-path"
+	FlagConfigPath = "config-path"
+	FlagBlockChain = "blockchain"
 )
