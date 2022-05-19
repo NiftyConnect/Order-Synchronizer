@@ -8,7 +8,7 @@ import (
 
 type BlockLog struct {
 	Id         int64
-	Chain      string
+	Blockchain string
 	BlockHash  string
 	ParentHash string
 	Height     int64

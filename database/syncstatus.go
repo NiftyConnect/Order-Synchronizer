@@ -6,29 +6,29 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type SyncStatus struct {
+type OrderAnalysisStatus struct {
 	Id int64
 
 	Blockchain string
 
-	LatestSyncHeight int64
+	LatestAnalysisHeight int64
 
 	CreateTime int64
 	UpdateTime int64
 }
 
-func (SyncStatus) TableName() string {
-	return "sync_status"
+func (OrderAnalysisStatus) TableName() string {
+	return "order_analysis_status"
 }
 
-func (l *SyncStatus) BeforeCreate() (err error) {
+func (l *OrderAnalysisStatus) BeforeCreate() (err error) {
 	l.CreateTime = time.Now().Unix()
 	return nil
 }
 
-func (SyncStatus) InitTable(db *gorm.DB) {
-	if !db.HasTable(&SyncStatus{}) {
-		db.CreateTable(&SyncStatus{})
-		db.Model(&SyncStatus{}).AddIndex("idx_"+SyncStatus{}.TableName()+"_blockchain", "blockchain")
+func (OrderAnalysisStatus) InitTable(db *gorm.DB) {
+	if !db.HasTable(&OrderAnalysisStatus{}) {
+		db.CreateTable(&OrderAnalysisStatus{})
+		db.Model(&OrderAnalysisStatus{}).AddIndex("idx_"+OrderAnalysisStatus{}.TableName()+"_blockchain", "blockchain")
 	}
 }

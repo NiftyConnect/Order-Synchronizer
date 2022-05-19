@@ -10,6 +10,8 @@ type NiftyConnectOrder struct {
 	Id int64
 
 	Blockchain string
+	Height     int64
+	Position   int64
 
 	OrderHash                string
 	TxHash                   string
@@ -30,8 +32,8 @@ type NiftyConnectOrder struct {
 	PaymentToken             string
 	OrderPrice               string
 	Extra                    string
-	ListingTime              int64
-	ExpirationTime           int64
+	ListingTime              string
+	ExpirationTime           string
 	Salt                     string
 
 	IsCancelled bool
@@ -63,6 +65,7 @@ func (NiftyConnectOrder) InitTable(db *gorm.DB) {
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_maker", "maker")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_side", "side")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_sale_kind", "sale_kind")
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_expiration_time", "expiration_time")
 
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_cancelled", "is_cancelled")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_is_expired", "is_expired")

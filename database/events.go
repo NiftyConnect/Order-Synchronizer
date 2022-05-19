@@ -8,7 +8,8 @@ type OrderApprovedPartOne struct {
 	Id         int64
 	Blockchain string
 	TxHash     string
-	Height     uint64
+	Height     int64
+	Position   int64
 
 	Hash                     string
 	Exchange                 string
@@ -38,7 +39,8 @@ type OrderApprovedPartTwo struct {
 	Id         int64
 	Blockchain string
 	TxHash     string
-	Height     uint64
+	Height     int64
+	Position   int64
 
 	Hash               string
 	Calldata           string
@@ -69,7 +71,8 @@ type OrderCancelled struct {
 	Id         int64
 	Blockchain string
 	TxHash     string
-	Height     uint64
+	Height     int64
+	Position   int64
 
 	Hash string
 }
@@ -90,7 +93,8 @@ type OrdersMatched struct {
 	Id         int64
 	Blockchain string
 	TxHash     string
-	Height     uint64
+	Height     int64
+	Position   int64
 
 	BuyHash                  string
 	SellHash                 string
@@ -118,7 +122,8 @@ type NonceIncremented struct {
 	Id         int64
 	Blockchain string
 	TxHash     string
-	Height     uint64
+	Height     int64
+	Position   int64
 
 	Maker    string
 	NewNonce string

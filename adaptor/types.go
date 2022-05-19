@@ -21,11 +21,12 @@ type OrderApprovedPartOne struct {
 	IpfsHash                 common.Hash
 }
 
-func (o OrderApprovedPartOne) toModelType(Blockchain string, TxHash string, Height uint64) database.OrderApprovedPartOne {
+func (o OrderApprovedPartOne) toModelType(blockchain string, txHash string, height int64, position int64) database.OrderApprovedPartOne {
 	return database.OrderApprovedPartOne{
-		Blockchain:               Blockchain,
-		TxHash:                   TxHash,
-		Height:                   Height,
+		Blockchain:               blockchain,
+		TxHash:                   txHash,
+		Height:                   height,
+		Position:                 position,
 		Hash:                     o.Hash.String(),
 		Exchange:                 o.Exchange.String(),
 		Maker:                    o.Maker.String(),
@@ -53,11 +54,12 @@ type OrderApprovedPartTwo struct {
 	Salt               *big.Int
 }
 
-func (o OrderApprovedPartTwo) toModelType(Blockchain string, TxHash string, Height uint64) database.OrderApprovedPartTwo {
+func (o OrderApprovedPartTwo) toModelType(blockchain string, txHash string, height int64, position int64) database.OrderApprovedPartTwo {
 	return database.OrderApprovedPartTwo{
-		Blockchain:         Blockchain,
-		TxHash:             TxHash,
-		Height:             Height,
+		Blockchain:         blockchain,
+		TxHash:             txHash,
+		Height:             height,
+		Position:           position,
 		Hash:               o.Hash.String(),
 		Calldata:           "0x" + hex.EncodeToString(o.Calldata),
 		ReplacementPattern: "0x" + hex.EncodeToString(o.ReplacementPattern),
@@ -76,11 +78,12 @@ type OrderCancelled struct {
 	Hash common.Hash
 }
 
-func (o OrderCancelled) toModelType(Blockchain string, TxHash string, Height uint64) database.OrderCancelled {
+func (o OrderCancelled) toModelType(blockchain string, txHash string, height int64, position int64) database.OrderCancelled {
 	return database.OrderCancelled{
-		Blockchain: Blockchain,
-		TxHash:     TxHash,
-		Height:     Height,
+		Blockchain: blockchain,
+		TxHash:     txHash,
+		Height:     height,
+		Position:   position,
 		Hash:       o.Hash.String(),
 	}
 }
@@ -96,11 +99,12 @@ type OrdersMatched struct {
 	Metadata                 common.Hash
 }
 
-func (o OrdersMatched) toModelType(Blockchain string, TxHash string, Height uint64) database.OrdersMatched {
+func (o OrdersMatched) toModelType(blockchain string, txHash string, height int64, position int64) database.OrdersMatched {
 	return database.OrdersMatched{
-		Blockchain:               Blockchain,
-		TxHash:                   TxHash,
-		Height:                   Height,
+		Blockchain:               blockchain,
+		TxHash:                   txHash,
+		Height:                   height,
+		Position:                 position,
 		BuyHash:                  o.BuyHash.String(),
 		SellHash:                 o.SellHash.String(),
 		Maker:                    o.Maker.String(),
@@ -117,11 +121,12 @@ type NonceIncremented struct {
 	NewNonce *big.Int
 }
 
-func (o NonceIncremented) toModelType(Blockchain string, TxHash string, Height uint64) database.NonceIncremented {
+func (o NonceIncremented) toModelType(blockchain string, txHash string, height int64, position int64) database.NonceIncremented {
 	return database.NonceIncremented{
-		Blockchain: Blockchain,
-		TxHash:     TxHash,
-		Height:     Height,
+		Blockchain: blockchain,
+		TxHash:     txHash,
+		Height:     height,
+		Position:   position,
 		Maker:      o.Maker.String(),
 		NewNonce:   o.NewNonce.String(),
 	}

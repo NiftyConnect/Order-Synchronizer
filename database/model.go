@@ -7,7 +7,7 @@ import (
 func InitTables(db *gorm.DB) {
 	NiftyConnectOrder{}.InitTable(db)
 	BlockLog{}.InitTable(db)
-	SyncStatus{}.InitTable(db)
+	OrderAnalysisStatus{}.InitTable(db)
 
 	OrderApprovedPartOne{}.InitTable(db)
 	OrderApprovedPartTwo{}.InitTable(db)
