@@ -16,10 +16,10 @@ import (
 )
 
 type Synchronizer struct {
-	blockchain    string
-	cfg           *config.ChainDetail
-	db            *gorm.DB
-	adaptorInst   *adaptor.Adaptor
+	blockchain  string
+	cfg         *config.ChainDetail
+	db          *gorm.DB
+	adaptorInst *adaptor.Adaptor
 }
 
 func NewSynchronizer(db *gorm.DB, cfg *config.Config, blockchain string) (*Synchronizer, error) {
@@ -59,7 +59,7 @@ func (syncInst *Synchronizer) fetchDaemon() {
 		panic(fmt.Sprintf("get latest block header error: %s", err.Error()))
 	}
 
-	latestConfirmedHeader, err := syncInst.adaptorInst.GetHeaderByNumber(context.Background(), big.NewInt(latestHeader.Number.Int64() - syncInst.cfg.ConfirmBlocks))
+	latestConfirmedHeader, err := syncInst.adaptorInst.GetHeaderByNumber(context.Background(), big.NewInt(latestHeader.Number.Int64()-syncInst.cfg.ConfirmBlocks))
 	if err != nil {
 		panic(fmt.Sprintf("get latest block header error: %s", err.Error()))
 	}
@@ -148,13 +148,13 @@ func (syncInst *Synchronizer) getCurrentBlockLog() (*database.BlockLog, error) {
 }
 
 func (syncInst *Synchronizer) analysisOrder(latestEventHeight int64) error {
-	isOrderAnalysisStatusExist := false
+	isOrderAnalysisStatusExist := true
 	syncStatus := database.OrderAnalysisStatus{}
 	err := syncInst.db.Model(database.OrderAnalysisStatus{}).Where("blockchain = ?", syncInst.blockchain).First(&syncStatus).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return err
 	} else if err == gorm.ErrRecordNotFound {
-		isOrderAnalysisStatusExist = true
+		isOrderAnalysisStatusExist = false
 	}
 	latestAnalysisHeight := syncStatus.LatestAnalysisHeight
 
@@ -213,7 +213,7 @@ func (syncInst *Synchronizer) analysisOrder(latestEventHeight int64) error {
 			Maker:                    eventPartOne.Maker,
 			Taker:                    eventPartOne.Taker,
 			MakerRelayerFeeRecipient: eventPartOne.MakerRelayerFeeRecipient,
-			TakerRelayerFeeRecipient: "",
+			TakerRelayerFeeRecipient: zeroAddress.String(),
 			Side:                     eventPartOne.Side,
 			SaleKind:                 eventPartOne.SaleKind,
 			NftAddress:               eventPartOne.NftAddress,
@@ -316,7 +316,7 @@ func (syncInst *Synchronizer) analysisOrder(latestEventHeight int64) error {
 		return err
 	}
 
-	if isOrderAnalysisStatusExist {
+	if !isOrderAnalysisStatusExist {
 		orderAnalysisStatus := database.OrderAnalysisStatus{
 			Blockchain:           syncInst.blockchain,
 			LatestAnalysisHeight: latestEventHeight,

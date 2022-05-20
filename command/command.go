@@ -3,6 +3,8 @@ package command
 import (
 	"fmt"
 
+	"github.com/niftyConnect/order-synchronizer/server"
+
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -50,9 +52,10 @@ func Start() *cobra.Command {
 			if err != nil {
 				panic(err)
 			}
-
 			syncInst.Start()
-			select {}
+
+			serverInst := server.NewServer(db, cfg)
+			serverInst.Serve()
 
 			return nil
 		},

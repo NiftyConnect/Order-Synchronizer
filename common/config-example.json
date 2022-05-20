@@ -1,0 +1,45 @@
+{
+  "log_config": {
+    "level": "INFO",
+    "filename": "",
+    "max_file_size_in_mb": 0,
+    "max_backups_of_log_files": 0,
+    "max_age_to_retain_log_files_in_days": 0,
+    "use_console_logger": true,
+    "use_file_logger": false,
+    "compress": false
+  },
+  "chain_config": {
+    "chain_details": {
+      "BSC": {
+        "providers": [
+          "https://bsc-dataseed.binance.org",
+          "https://bsc-dataseed1.defibit.io",
+          "https://bsc-dataseed1.ninicoin.io"
+        ],
+        "start_height": 17706607,
+        "sleep_wait_second": 3,
+        "confirm_blocks": 3,
+        "height_step": 1000,
+        "exchange_contract": "0x643e5ae0b0464646c5ba290efd9aa31285450b83"
+      },
+      "ETH": {
+        "providers": [],
+        "start_height": 14754037,
+        "sleep_wait_second": 10,
+        "confirm_blocks": 1,
+        "height_step": 1000,
+        "exchange_contract": "0xad7ce050e176fdf23520330f0e7f342276b3c891"
+      }
+    }
+  },
+  "alert_config": {
+    "identity": "",
+    "telegram_bot_id": "",
+    "telegram_chat_id": ""
+  },
+  "db_config": {
+    "dialect": "sqlite3",
+    "db_path": "test.db"
+  }
+}

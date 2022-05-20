@@ -4,8 +4,10 @@ go 1.16
 
 require (
 	github.com/ethereum/go-ethereum v1.10.10
+	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/gorm v1.9.12
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
+	github.com/rs/cors v1.7.0
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.0
 	github.com/tendermint/tendermint v0.32.3

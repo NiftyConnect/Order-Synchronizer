@@ -8,10 +8,11 @@ import (
 )
 
 type Config struct {
-	LogConfig   LogConfig   `json:"log_config"`
-	ChainConfig ChainConfig `json:"chain_config"`
-	AlertConfig AlertConfig `json:"alert_config"`
-	DBConfig    DBConfig    `json:"db_config"`
+	LogConfig    LogConfig    `json:"log_config"`
+	ChainConfig  ChainConfig  `json:"chain_config"`
+	AlertConfig  AlertConfig  `json:"alert_config"`
+	DBConfig     DBConfig     `json:"db_config"`
+	ServerConfig ServerConfig `json:"server_config"`
 }
 
 type AlertConfig struct {
@@ -47,6 +48,10 @@ type ChainDetail struct {
 type DBConfig struct {
 	Dialect string `json:"dialect"`
 	DBPath  string `json:"db_path"`
+}
+
+type ServerConfig struct {
+	ListenAddr string `json:"listen_addr"`
 }
 
 func ParseConfigFromFile(filePath string) *Config {
