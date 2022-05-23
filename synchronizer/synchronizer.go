@@ -67,7 +67,7 @@ func (syncInst *Synchronizer) fetchDaemon() {
 
 	localcmm.Logger.Infof("latest height in DB %d, latest %s height %d", curBlockLog.Height, syncInst.blockchain, latestConfirmedHeader.Number.Int64())
 
-	if curBlockLog == nil || latestConfirmedHeader.Number.Int64() > curBlockLog.Height+syncInst.cfg.HeightStep {
+	if curBlockLog == nil || latestConfirmedHeader.Number.Int64() > curBlockLog.Height+ thresholdHeight {
 		localcmm.Logger.Infof("Extract history events")
 		events, err := syncInst.adaptorInst.ExtractEvents(syncInst.cfg.HeightStep, syncInst.cfg.StartHeight, latestConfirmedHeader.Number.Int64())
 		if err != nil {

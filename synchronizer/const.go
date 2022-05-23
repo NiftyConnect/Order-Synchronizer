@@ -7,6 +7,8 @@ const (
 	pruneHeightGap = 1000
 
 	expireInterval = 60
+
+	thresholdHeight = 50
 )
 
 var (
