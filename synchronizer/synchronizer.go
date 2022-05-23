@@ -67,11 +67,20 @@ func (syncInst *Synchronizer) fetchDaemon() {
 
 	localcmm.Logger.Infof("latest height in DB %d, latest %s height %d", curBlockLog.Height, syncInst.blockchain, latestConfirmedHeader.Number.Int64())
 
-	if curBlockLog == nil || latestConfirmedHeader.Number.Int64() > curBlockLog.Height+ thresholdHeight {
+	if curBlockLog == nil || latestConfirmedHeader.Number.Int64() > curBlockLog.Height+thresholdHeight {
 		localcmm.Logger.Infof("Extract history events")
-		events, err := syncInst.adaptorInst.ExtractEvents(syncInst.cfg.HeightStep, syncInst.cfg.StartHeight, latestConfirmedHeader.Number.Int64())
+		startExtractHeight := syncInst.cfg.StartHeight
+		var latestEvent database.OrderApprovedPartOne
+		if err = syncInst.db.Model(database.OrderApprovedPartOne{}).Where("blockchain = ?", syncInst.blockchain).Order("height desc").First(&latestEvent).Error; err == nil {
+			if curBlockLog != nil && latestEvent.Height < curBlockLog.Height {
+				startExtractHeight = curBlockLog.Height + 1
+			} else {
+				startExtractHeight = latestEvent.Height + 1
+			}
+		}
+		events, err := syncInst.adaptorInst.ExtractEvents(syncInst.cfg.HeightStep, startExtractHeight, latestConfirmedHeader.Number.Int64())
 		if err != nil {
-			panic(fmt.Sprintf("extract events from %d to %d, error: %s", syncInst.cfg.StartHeight, uint64(latestConfirmedHeader.Number.Int64()), err.Error()))
+			panic(fmt.Sprintf("extract events from %d to %d, error: %s", startExtractHeight, uint64(latestConfirmedHeader.Number.Int64()), err.Error()))
 		}
 		nextBlockLog := database.BlockLog{
 			Blockchain: syncInst.blockchain,
