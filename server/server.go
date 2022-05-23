@@ -28,7 +28,10 @@ func NewServer(db *gorm.DB, cfg *config.Config) *Server {
 func (server *Server) Serve() {
 	router := mux.NewRouter()
 
+	router.HandleFunc(fmt.Sprintf("/"), server.handleQueryAPI).Methods("GET")
 	router.HandleFunc(fmt.Sprintf("/api/v1/query_order/{%s}/{%s}", queryParameterBlockchain, queryParameterOrderHash), server.handleQueryOrderByHash).Methods("GET")
+	router.HandleFunc(fmt.Sprintf("/api/v1/query_orders/{%s}/{%s}", queryParameterBlockchain, queryParameterNFTAddress), server.handleQueryOrderByNFTAddress).Methods("GET")
+	router.HandleFunc(fmt.Sprintf("/api/v1/query_orders/{%s}/{%s}/{%s}", queryParameterBlockchain, queryParameterNFTAddress, queryParameterTokenId), server.handleQueryOrderByNFTAddressAndTokenId).Methods("GET")
 
 	listenAddr := defaultListenAddr
 	if server.cfg.ServerConfig.ListenAddr != "" {

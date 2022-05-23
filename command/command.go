@@ -46,6 +46,7 @@ func Start() *cobra.Command {
 			}
 
 			for blockchain, chainDetails := range cfg.ChainConfig.ChainDetails {
+				blockchain = config.FormatBlockchainName(blockchain)
 				syncInst, err := synchronizer.NewSynchronizer(db, chainDetails, blockchain)
 				if err != nil {
 					panic(err)

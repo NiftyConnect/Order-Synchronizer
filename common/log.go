@@ -11,11 +11,9 @@ import (
 )
 
 var (
-	// Logger instance for quick declarative logging levels
 	Logger    = logging.MustGetLogger("Order-Synchronizer")
 	SdkLogger = &sdkLogger{}
 
-	// log levels that are available
 	levels = map[string]logging.Level{
 		"CRITICAL": logging.CRITICAL,
 		"ERROR":    logging.ERROR,
@@ -26,7 +24,6 @@ var (
 	}
 )
 
-// InitLogger initialises the logger.
 func InitLogger(config *config.LogConfig) {
 	backends := make([]logging.Backend, 0)
 
