@@ -67,6 +67,8 @@ func (NiftyConnectOrder) InitTable(db *gorm.DB) {
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_sale_kind", "blockchain", "sale_kind")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_expiration_time", "blockchain", "expiration_time")
 
+		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_expiration_time_is_expired", "blockchain", "expiration_time", "is_expired")
+
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_is_cancelled", "blockchain", "is_cancelled")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_is_expired", "blockchain", "is_expired")
 		db.Model(&NiftyConnectOrder{}).AddIndex("idx_"+NiftyConnectOrder{}.TableName()+"_blockchain_is_finalized", "blockchain", "is_finalized")

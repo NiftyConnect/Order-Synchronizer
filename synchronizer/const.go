@@ -3,10 +3,10 @@ package synchronizer
 import "github.com/ethereum/go-ethereum/common"
 
 const (
-	observerPruneInterval = 60
-	contextTimeout        = 30
-
+	pruneInterval  = 60
 	pruneHeightGap = 1000
+
+	expireInterval = 60
 )
 
 var (

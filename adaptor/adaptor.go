@@ -24,14 +24,14 @@ var (
 
 type Adaptor struct {
 	blockchain              string
-	cfg                     *config.Config
+	cfg                     *config.ChainDetail
 	niftyConnectExchangeABI abi.ABI
 	niftyConnectAddress     common.Address
-	clientHub               ClientHub
+	clientMgr               *ClientMgr
 }
 
-func NewAdaptor(cfg *config.Config, blockchain string) (*Adaptor, error) {
-	clientHub, err := NewClientHub(cfg)
+func NewAdaptor(cfg *config.ChainDetail, blockchain string) (*Adaptor, error) {
+	clientMgr, err := NewClientMgr(cfg, blockchain)
 	if err != nil {
 		return nil, err
 	}
@@ -40,25 +40,21 @@ func NewAdaptor(cfg *config.Config, blockchain string) (*Adaptor, error) {
 	if err != nil {
 		return nil, fmt.Errorf("marshal abi error")
 	}
-	chainDetails, ok := cfg.ChainConfig.ChainDetails[blockchain]
-	if !ok {
-		return nil, fmt.Errorf("missing chain details for %s", blockchain)
-	}
 	return &Adaptor{
 		blockchain:              blockchain,
 		cfg:                     cfg,
-		clientHub:               clientHub,
+		clientMgr:               clientMgr,
 		niftyConnectExchangeABI: niftyConnectExchangeABIV,
-		niftyConnectAddress:     chainDetails.ExchangeContract,
+		niftyConnectAddress:     cfg.ExchangeContract,
 	}, nil
 }
 
 func (adaptorInst *Adaptor) GetLatestHeader(ctx context.Context) (*types.Header, error) {
-	return adaptorInst.clientHub.GetClient(adaptorInst.blockchain).HeaderByNumber(ctx, nil)
+	return adaptorInst.clientMgr.GetClient().HeaderByNumber(ctx, nil)
 }
 
 func (adaptorInst *Adaptor) GetHeaderByNumber(ctx context.Context, number *big.Int) (*types.Header, error) {
-	return adaptorInst.clientHub.GetClient(adaptorInst.blockchain).HeaderByNumber(ctx, number)
+	return adaptorInst.clientMgr.GetClient().HeaderByNumber(ctx, number)
 }
 
 func (adaptorInst *Adaptor) GetNiftyConnectEvents(header *types.Header) ([]interface{}, error) {
@@ -79,7 +75,7 @@ func (adaptorInst *Adaptor) getNiftyConnectEventAtBlock(header *types.Header) ([
 	ctxWithTimeout, cancel := context.WithTimeout(context.Background(), contextTimeout*time.Second)
 	defer cancel()
 
-	logs, err := adaptorInst.clientHub.GetClient(adaptorInst.blockchain).FilterLogs(ctxWithTimeout, ethereum.FilterQuery{
+	logs, err := adaptorInst.clientMgr.GetClient().FilterLogs(ctxWithTimeout, ethereum.FilterQuery{
 		BlockHash: &blockHash,
 		Topics:    topics,
 		Addresses: []common.Address{adaptorInst.niftyConnectAddress},
@@ -103,7 +99,7 @@ func (adaptorInst *Adaptor) getNiftyConnectEventFromBlockRange(fromHeight, toHei
 		adaptorInst.niftyConnectExchangeABI.Events[nonceIncrementedEvent].ID,
 	}}
 
-	logs, err := adaptorInst.clientHub.GetClient(adaptorInst.blockchain).FilterLogs(ctxWithTimeout, ethereum.FilterQuery{
+	logs, err := adaptorInst.clientMgr.GetClient().FilterLogs(ctxWithTimeout, ethereum.FilterQuery{
 		FromBlock: big.NewInt(fromHeight),
 		ToBlock:   big.NewInt(toHeight),
 		Topics:    topics,

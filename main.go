@@ -42,7 +42,6 @@ func main() {
 	}
 
 	rootCmd.PersistentFlags().String(cmm.FlagConfigPath, "", "config file path")
-	rootCmd.PersistentFlags().String(cmm.FlagBlockChain, "", "blockchain")
 
 	rootCmd.AddCommand(
 		command.Start(),

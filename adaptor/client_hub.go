@@ -18,32 +18,25 @@ type ClientMgr struct {
 	clientSet    []*ethclient.Client
 }
 
-type ClientHub map[string]*ClientMgr
-
-func NewClientHub(cfg *config.Config) (ClientHub, error) {
-	clientHub := make(map[string]*ClientMgr)
-	for blockchain, chainDetail := range cfg.ChainConfig.ChainDetails {
-		clientMgr := &ClientMgr{
-			idx:          0,
-			clientSetLen: int64(len(chainDetail.Providers)),
-			providers:    chainDetail.Providers,
-			blockchain:   blockchain,
-			clientSet:    make([]*ethclient.Client, 0, len(chainDetail.Providers)),
-		}
-		for _, provider := range chainDetail.Providers {
-			ethClient, err := ethclient.Dial(provider)
-			if err != nil {
-				return nil, err
-			}
-			clientMgr.clientSet = append(clientMgr.clientSet, ethClient)
-		}
-		clientHub[blockchain] = clientMgr
+func NewClientMgr(cfg *config.ChainDetail, blockchain string) (*ClientMgr, error) {
+	clientMgr := &ClientMgr{
+		idx:          0,
+		clientSetLen: int64(len(cfg.Providers)),
+		providers:    cfg.Providers,
+		blockchain:   blockchain,
+		clientSet:    make([]*ethclient.Client, 0, len(cfg.Providers)),
 	}
-	return clientHub, nil
+	for _, provider := range cfg.Providers {
+		ethClient, err := ethclient.Dial(provider)
+		if err != nil {
+			return nil, err
+		}
+		clientMgr.clientSet = append(clientMgr.clientSet, ethClient)
+	}
+	return clientMgr, nil
 }
 
-func (clientHub ClientHub) GetClient(blockchain string) *ethclient.Client {
-	clientMgr := clientHub[blockchain]
+func (clientMgr *ClientMgr) GetClient() *ethclient.Client {
 	clientMgr.mutex.Lock()
 	client := clientMgr.clientSet[clientMgr.idx]
 	localcmm.Logger.Debugf("blockchain %s, client provider: %s", clientMgr.blockchain, clientMgr.providers[clientMgr.idx])

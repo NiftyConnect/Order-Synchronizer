@@ -22,14 +22,14 @@ type Synchronizer struct {
 	adaptorInst *adaptor.Adaptor
 }
 
-func NewSynchronizer(db *gorm.DB, cfg *config.Config, blockchain string) (*Synchronizer, error) {
+func NewSynchronizer(db *gorm.DB, cfg *config.ChainDetail, blockchain string) (*Synchronizer, error) {
 	adaptorInst, err := adaptor.NewAdaptor(cfg, blockchain)
 	if err != nil {
 		return nil, err
 	}
 	return &Synchronizer{
 		blockchain:  blockchain,
-		cfg:         cfg.ChainConfig.ChainDetails[blockchain],
+		cfg:         cfg,
 		db:          db,
 		adaptorInst: adaptorInst,
 	}, nil
@@ -37,6 +37,7 @@ func NewSynchronizer(db *gorm.DB, cfg *config.Config, blockchain string) (*Synch
 
 func (syncInst *Synchronizer) Start() {
 	go syncInst.fetchDaemon()
+	go syncInst.expireOrdersDeamon()
 	go syncInst.pruneDaemon()
 }
 
@@ -112,6 +113,41 @@ func (syncInst *Synchronizer) fetchDaemon() {
 	}
 }
 
+func (syncInst *Synchronizer) expireOrdersDeamon() {
+	defer func() {
+		if r := recover(); r != nil {
+			localcmm.Logger.Errorf("------------------------------------------")
+			localcmm.Logger.Errorf("Recovered from panic %v", r)
+			localcmm.Logger.Errorf("------------------------------------------")
+		}
+	}()
+	for {
+		time.Sleep(expireInterval)
+
+		tx := syncInst.db.Begin()
+		if err := tx.Error; err != nil {
+			localcmm.Logger.Errorf("%s", err.Error())
+			continue
+		}
+
+		currentTime := time.Now().Unix()
+		if err := tx.Model(database.NiftyConnectOrder{}).Where("blockchain = ? and expiration_time < ? and is_expired = ?", syncInst.blockchain, currentTime, false).
+			Updates(map[string]interface{}{
+				"is_expired":  true,
+				"update_time": time.Now().Unix(),
+			}).Error; err != nil {
+			tx.Rollback()
+			localcmm.Logger.Errorf("%s", err.Error())
+			continue
+		}
+
+		if err := tx.Commit().Error; err != nil {
+			localcmm.Logger.Errorf("%s", err.Error())
+			continue
+		}
+	}
+}
+
 func (syncInst *Synchronizer) pruneDaemon() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -124,7 +160,7 @@ func (syncInst *Synchronizer) pruneDaemon() {
 		curBlockLog, err := syncInst.getCurrentBlockLog()
 		if err != nil {
 			localcmm.Logger.Errorf("get current block log error, err=%s", err.Error())
-			time.Sleep(observerPruneInterval)
+			time.Sleep(pruneInterval)
 			continue
 		}
 		err = syncInst.db.Where("blockchain = ? and height < ?",
@@ -134,7 +170,7 @@ func (syncInst *Synchronizer) pruneDaemon() {
 		if err != nil {
 			localcmm.Logger.Infof("prune block logs error, err=%s", err.Error())
 		}
-		time.Sleep(observerPruneInterval)
+		time.Sleep(pruneInterval)
 	}
 }
 
@@ -201,7 +237,7 @@ func (syncInst *Synchronizer) analysisOrder(latestEventHeight int64) error {
 			}
 		}
 		if !foundPartTwo {
-			return fmt.Errorf("failed to find part two event, order hash %s", eventPartOne.Hash)
+			return fmt.Errorf("failed to find order approved part two event, order hash %s", eventPartOne.Hash)
 		}
 
 		newCreateOrders = append(newCreateOrders, database.NiftyConnectOrder{
