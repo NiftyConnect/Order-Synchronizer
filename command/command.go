@@ -10,6 +10,8 @@ import (
 	"github.com/niftyConnect/order-synchronizer/common"
 	"github.com/niftyConnect/order-synchronizer/config"
 	"github.com/niftyConnect/order-synchronizer/database"
+	"github.com/niftyConnect/order-synchronizer/ranking"
+	"github.com/niftyConnect/order-synchronizer/rankingserver"
 	"github.com/niftyConnect/order-synchronizer/server"
 	"github.com/niftyConnect/order-synchronizer/synchronizer"
 )
@@ -58,6 +60,21 @@ func Start() *cobra.Command {
 			serverInst := server.NewServer(db, cfg)
 			serverInst.Serve()
 
+			return nil
+		},
+	}
+	return cmd
+}
+func MakeCloseBetaRanking() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "ranking",
+		Short: "make close beta ranking data",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cfg := readConfigAndInit()
+			ranking.Start(cfg)
+
+			rankingServerInst := rankingserver.NewServer(cfg)
+			rankingServerInst.Serve()
 			return nil
 		},
 	}

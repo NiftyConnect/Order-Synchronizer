@@ -8,11 +8,12 @@ import (
 )
 
 type Config struct {
-	LogConfig    LogConfig    `json:"log_config"`
-	ChainConfig  ChainConfig  `json:"chain_config"`
-	AlertConfig  AlertConfig  `json:"alert_config"`
-	DBConfig     DBConfig     `json:"db_config"`
-	ServerConfig ServerConfig `json:"server_config"`
+	LogConfig     LogConfig     `json:"log_config"`
+	ChainConfig   ChainConfig   `json:"chain_config"`
+	AlertConfig   AlertConfig   `json:"alert_config"`
+	DBConfig      DBConfig      `json:"db_config"`
+	ServerConfig  ServerConfig  `json:"server_config"`
+	RankingConfig RankingConfig `json:"ranking_config"`
 }
 
 type AlertConfig struct {
@@ -54,6 +55,19 @@ type ServerConfig struct {
 	ListenAddr string `json:"listen_addr"`
 }
 
+type RankingConfig struct {
+	RankingFile   string   `json:"ranking_file"`
+	WhiteList     []string `json:"whitelist"`
+	BlueChip      []string `json:"bluechip"`
+	CbStart       int      `json:"cbstart"`
+	CbEnd         int      `json:"cbend"`
+	ObStart       int      `json:"obstart"`
+	ObEnd         int      `json:"obend"`
+	PointsPerSell int      `json:"points_per_sell"`
+	PointsPerBuy  int      `json:"points_per_buy"`
+	CbTimes       int      `json:"cb_times"`
+}
+
 func ParseConfigFromFile(filePath string) *Config {
 	bz, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -64,6 +78,5 @@ func ParseConfigFromFile(filePath string) *Config {
 	if err := json.Unmarshal(bz, &config); err != nil {
 		panic(err)
 	}
-
 	return &config
 }

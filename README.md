@@ -13,7 +13,7 @@ make build
 ## Run
 
 ```shell
-cp config-example.json build/config.json
+cp config/config-example.json build/config.json
 cd build
  ./niftyconnect-order-synchronizer start --config-path config.json
 ```

@@ -45,6 +45,7 @@ func main() {
 
 	rootCmd.AddCommand(
 		command.Start(),
+		command.MakeCloseBetaRanking(),
 	)
 	// prepare and add flags
 	rootCmd.PersistentPreRunE = concatCobraCmdFuncs(bindFlagsLoadViper, rootCmd.PersistentPreRunE)
