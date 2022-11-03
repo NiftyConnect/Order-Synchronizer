@@ -61,129 +61,129 @@ type UserOrderInfo struct {
 func Start(cfg *config.Config) {
 	offset := 0
 	clearMaps()
-	//读取全部成交定单
+	//隔一段时间重新跑
 	for {
-		scanOrders, err := readFromNftScan(offset)
+		fmt.Println("Rebuild Ranking data...")
+		//读取全部成交定单
+		for {
+			scanOrders, err := readFromNftScan(offset)
 
-		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("retry in ", retryInterval, "seconds")
-			time.Sleep(time.Duration(retryInterval) * time.Second)
-			continue
+			if err != nil {
+				fmt.Println(err.Error())
+				fmt.Println("retry in ", retryInterval, "seconds")
+				time.Sleep(time.Duration(retryInterval) * time.Second)
+				continue
+			}
+			ordersNum := len(scanOrders)
+			fmt.Println("len:", ordersNum)
+
+			for _, order := range scanOrders {
+
+				if nil == allUserOrders[order.Maker] {
+					//fmt.Println("add maker map")
+					allUserOrders[order.Maker] = make(map[string]map[string]interface{})
+				}
+				//fmt.Println(allUserOrders[order.Maker][order.Tx_hash])
+				if len(allUserOrders[order.Maker][order.Tx_hash]) == 0 {
+					//fmt.Println("add maker hash => order")
+					allUserOrders[order.Maker][order.Tx_hash] = make(map[string]interface{})
+					allUserOrders[order.Maker][order.Tx_hash]["Side"] = "Sell"
+					allUserOrders[order.Maker][order.Tx_hash]["Maker"] = order.Maker
+					allUserOrders[order.Maker][order.Tx_hash]["Taker"] = order.Taker
+					allUserOrders[order.Maker][order.Tx_hash]["Tx_time"] = order.Tx_time
+					allUserOrders[order.Maker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
+					allUserOrders[order.Maker][order.Tx_hash]["Token_id"] = order.Token_id
+					allUserOrders[order.Maker][order.Tx_hash]["Nft_address"] = order.Nft_address
+					allUserOrders[order.Maker][order.Tx_hash]["Listing_time"] = order.Listing_time
+
+				}
+				if nil == allUserOrders[order.Taker] {
+					//fmt.Println("add taker map")
+					allUserOrders[order.Taker] = make(map[string]map[string]interface{})
+				}
+
+				if len(allUserOrders[order.Taker][order.Tx_hash]) == 0 {
+					//fmt.Println("add taker hask => order")
+					allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
+					allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
+					allUserOrders[order.Taker][order.Tx_hash]["Side"] = "buy"
+					allUserOrders[order.Taker][order.Tx_hash]["Maker"] = order.Maker
+					allUserOrders[order.Taker][order.Tx_hash]["Taker"] = order.Taker
+					allUserOrders[order.Taker][order.Tx_hash]["Tx_time"] = order.Tx_time
+					allUserOrders[order.Taker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
+					allUserOrders[order.Taker][order.Tx_hash]["Token_id"] = order.Token_id
+					allUserOrders[order.Taker][order.Tx_hash]["Nft_address"] = order.Nft_address
+					allUserOrders[order.Taker][order.Tx_hash]["Listing_time"] = order.Listing_time
+				}
+				//fmt.Println(i, "processed")
+			}
+			//最后一页
+			if ordersNum < perPage {
+				break
+			}
+			offset += perPage
 		}
-		ordersNum := len(scanOrders)
-		fmt.Println("len:", ordersNum)
 
-		for _, order := range scanOrders {
-
-			if nil == allUserOrders[order.Maker] {
-				//fmt.Println("add maker map")
-				allUserOrders[order.Maker] = make(map[string]map[string]interface{})
-			}
-			//fmt.Println(allUserOrders[order.Maker][order.Tx_hash])
-			if len(allUserOrders[order.Maker][order.Tx_hash]) == 0 {
-				//fmt.Println("add maker hash => order")
-				allUserOrders[order.Maker][order.Tx_hash] = make(map[string]interface{})
-				allUserOrders[order.Maker][order.Tx_hash]["Side"] = "Sell"
-				allUserOrders[order.Maker][order.Tx_hash]["Maker"] = order.Maker
-				allUserOrders[order.Maker][order.Tx_hash]["Taker"] = order.Taker
-				allUserOrders[order.Maker][order.Tx_hash]["Tx_time"] = order.Tx_time
-				allUserOrders[order.Maker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
-				allUserOrders[order.Maker][order.Tx_hash]["Token_id"] = order.Token_id
-				allUserOrders[order.Maker][order.Tx_hash]["Nft_address"] = order.Nft_address
-				allUserOrders[order.Maker][order.Tx_hash]["Listing_time"] = order.Listing_time
-
-			}
-			if nil == allUserOrders[order.Taker] {
-				//fmt.Println("add taker map")
-				allUserOrders[order.Taker] = make(map[string]map[string]interface{})
-			}
-
-			if len(allUserOrders[order.Taker][order.Tx_hash]) == 0 {
-				//fmt.Println("add taker hask => order")
-				allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
-				allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
-				allUserOrders[order.Taker][order.Tx_hash]["Side"] = "buy"
-				allUserOrders[order.Taker][order.Tx_hash]["Maker"] = order.Maker
-				allUserOrders[order.Taker][order.Tx_hash]["Taker"] = order.Taker
-				allUserOrders[order.Taker][order.Tx_hash]["Tx_time"] = order.Tx_time
-				allUserOrders[order.Taker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
-				allUserOrders[order.Taker][order.Tx_hash]["Token_id"] = order.Token_id
-				allUserOrders[order.Taker][order.Tx_hash]["Nft_address"] = order.Nft_address
-				allUserOrders[order.Taker][order.Tx_hash]["Listing_time"] = order.Listing_time
-			}
-			//fmt.Println(i, "processed")
+		//计算排行榜
+		//清空
+		for i := range userPoints {
+			userPoints[i] = 0
 		}
-		//最后一页
-		if ordersNum < perPage {
-			break
-		}
-		offset += perPage
-	}
+		for user, userOrder := range allUserOrders {
+			for _, order := range userOrder {
+				orderTxTime := fmtStrFromInterface(order["Tx_time"])
+				txTime, _ := strconv.Atoi(orderTxTime)
 
-	//计算排行榜
-	//清空
-	for i := range userPoints {
-		userPoints[i] = 0
-	}
-	for user, userOrder := range allUserOrders {
-		for _, order := range userOrder {
-			orderTxTime := fmtStrFromInterface(order["Tx_time"])
-			txTime, _ := strconv.Atoi(orderTxTime)
-
-			//白名单用户
-			if whiteListed(user, cfg.RankingConfig.WhiteList) {
-				//fmt.Println(user, "whitelisted")
-				//close beta 期间完成
-				if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
-					//fmt.Println("deal in cb")
-					if order["Side"] == "sell" {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
-					} else {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes
+				//白名单用户
+				if whiteListed(user, cfg.RankingConfig.WhiteList) {
+					//fmt.Println(user, "whitelisted")
+					//close beta 期间完成
+					if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
+						//fmt.Println("deal in cb")
+						if order["Side"] == "sell" {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
+						} else {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes
+						}
+					} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
+						//fmt.Println("deal in ob")
+						if order["Side"] == "sell" {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
+						} else {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
+						}
 					}
-				} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-					//fmt.Println("deal in ob")
-					if order["Side"] == "sell" {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
-					} else {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
+				} else {
+					//fmt.Println("not white listed")
+					if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
+						//fmt.Println("deal in ob")
+						if order["Side"] == "sell" {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
+						} else {
+							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
+							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
+						}
 					}
 				}
-			} else {
-				//fmt.Println("not white listed")
-				if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-					//fmt.Println("deal in ob")
-					if order["Side"] == "sell" {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
-					} else {
-						//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
-						userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
-					}
-				}
 			}
 		}
-	}
 
-	str, err := json.Marshal(userPoints)
-	if nil != err {
-		fmt.Println(err)
+		str, err := json.Marshal(userPoints)
+		if nil != err {
+			fmt.Println(err)
+		}
+		fmt.Println(string(str))
+		err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, (str), 0644)
+		if nil != err {
+			fmt.Println("failed to write ranking data file ")
+		}
+		time.Sleep(time.Duration(cfg.RankingConfig.RankingInterval) * time.Second)
 	}
-	fmt.Println(string(str))
-	err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, (str), 0644)
-	if nil != err {
-		fmt.Println("failed to write ranking data file ")
-	}
-	/* 	str, err := json.Marshal(allUserOrders)
-	   	if nil != err {
-	   		fmt.Println(err)
-	   	}
-	   	fmt.Println(string(str)) */
 }
 
 func fmtStrFromInterface(val interface{}) string {

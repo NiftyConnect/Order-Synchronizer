@@ -56,16 +56,17 @@ type ServerConfig struct {
 }
 
 type RankingConfig struct {
-	RankingFile   string   `json:"ranking_file"`
-	WhiteList     []string `json:"whitelist"`
-	BlueChip      []string `json:"bluechip"`
-	CbStart       int      `json:"cbstart"`
-	CbEnd         int      `json:"cbend"`
-	ObStart       int      `json:"obstart"`
-	ObEnd         int      `json:"obend"`
-	PointsPerSell int      `json:"points_per_sell"`
-	PointsPerBuy  int      `json:"points_per_buy"`
-	CbTimes       int      `json:"cb_times"`
+	RankingFile     string   `json:"ranking_file"`
+	WhiteList       []string `json:"whitelist"`
+	BlueChip        []string `json:"bluechip"`
+	CbStart         int      `json:"cbstart"`
+	CbEnd           int      `json:"cbend"`
+	ObStart         int      `json:"obstart"`
+	ObEnd           int      `json:"obend"`
+	PointsPerSell   int      `json:"points_per_sell"`
+	PointsPerBuy    int      `json:"points_per_buy"`
+	CbTimes         int      `json:"cb_times"`
+	RankingInterval int      `json:"ranking_interval"`
 }
 
 func ParseConfigFromFile(filePath string) *Config {
