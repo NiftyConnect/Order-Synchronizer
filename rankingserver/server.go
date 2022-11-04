@@ -23,6 +23,7 @@ func NewServer(cfg *config.Config) *Server {
 }
 
 func (server *Server) Serve() {
+	fmt.Println("serving")
 	router := mux.NewRouter()
 
 	router.HandleFunc("/Ranking", server.handleRanking).Methods("GET")

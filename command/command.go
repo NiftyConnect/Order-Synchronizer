@@ -71,10 +71,10 @@ func MakeCloseBetaRanking() *cobra.Command {
 		Short: "make close beta ranking data",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg := readConfigAndInit()
-			ranking.Start(cfg)
-
+			go ranking.Start(cfg)
 			rankingServerInst := rankingserver.NewServer(cfg)
 			rankingServerInst.Serve()
+
 			return nil
 		},
 	}
