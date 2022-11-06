@@ -173,12 +173,23 @@ func Start(cfg *config.Config) {
 			}
 		}
 
-		str, err := json.Marshal(userPoints)
+		fmt.Println("userPoints length:", len(userPoints))
+		lenUserPoints := len(userPoints)
+		userPointsArray := make([]map[string]interface{}, lenUserPoints)
+		indexArray := 0
+		for k, v := range userPoints {
+			userPointsArray[indexArray] = make(map[string]interface{})
+			userPointsArray[indexArray]["key"] = k
+			userPointsArray[indexArray]["value"] = v
+			indexArray++
+		}
+
+		str, err := json.Marshal(userPointsArray)
 		if nil != err {
 			fmt.Println(err)
 		}
 		fmt.Println(string(str))
-		err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, (str), 0644)
+		err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, str, 0644)
 		if nil != err {
 			fmt.Println("failed to write ranking data file ")
 		}
