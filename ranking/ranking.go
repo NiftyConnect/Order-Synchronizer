@@ -75,7 +75,7 @@ func Start(cfg *config.Config) {
 				continue
 			}
 			ordersNum := len(scanOrders)
-			fmt.Println("len:", ordersNum)
+			//fmt.Println("len:", ordersNum)
 
 			for _, order := range scanOrders {
 
@@ -133,47 +133,51 @@ func Start(cfg *config.Config) {
 			for _, order := range userOrder {
 				orderTxTime := fmtStrFromInterface(order["Tx_time"])
 				txTime, _ := strconv.Atoi(orderTxTime)
-
+				//fmt.Println(">>> ========================== New Order ==========================")
+				//fmt.Print("[", user, "] ")
 				//白名单用户
 				if whiteListed(user, cfg.RankingConfig.WhiteList) {
-					//fmt.Println(user, "whitelisted")
+					//fmt.Println("whitelisted ")
 					//close beta 期间完成
 					if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
-						//fmt.Println("deal in cb")
-						if order["Side"] == "sell" {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes)
+						//fmt.Print("During CB, ")
+						if order["Side"] == "Sell" {
+							//fmt.Println(" made a deal as [SELLER] won [", cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
 						} else {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes)
+							//fmt.Println(" made a deal as [BUYER] won [", cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes
 						}
 					} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-						//fmt.Println("deal in ob")
-						if order["Side"] == "sell" {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
+						//fmt.Print("During OB, ")
+						if order["Side"] == "Sell" {
+							//fmt.Println(" made a deal as [SELLER] won [", cfg.RankingConfig.PointsPerSell, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
 						} else {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
+							//fmt.Println(" made a deal as [BUYER] won [", cfg.RankingConfig.PointsPerBuy, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
 						}
 					}
 				} else {
-					//fmt.Println("not white listed")
+					//fmt.Println("not whitelisted")
 					if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-						//fmt.Println("deal in ob")
+						//fmt.Print("During OB, ")
 						if order["Side"] == "sell" {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerSell)
+							//fmt.Println(" made a deal as [SELLER] won [", cfg.RankingConfig.PointsPerSell, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
 						} else {
-							//fmt.Println(user, order["Side"], cfg.RankingConfig.PointsPerBuy)
+							//fmt.Println(" made a deal as [BUYER] won [", cfg.RankingConfig.PointsPerBuy, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
 						}
+					} else {
+						//fmt.Println("[non-whitelisted user made deal not during OB, no points won]")
 					}
 				}
+				//fmt.Println("<<< ========================== Order End ==========================")
+				//fmt.Println("")
 			}
 		}
 
-		fmt.Println("userPoints length:", len(userPoints))
 		lenUserPoints := len(userPoints)
 		userPointsArray := make([]map[string]interface{}, lenUserPoints)
 		indexArray := 0
@@ -188,7 +192,7 @@ func Start(cfg *config.Config) {
 		if nil != err {
 			fmt.Println(err)
 		}
-		fmt.Println(string(str))
+		//fmt.Println(string(str))
 		err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, str, 0644)
 		if nil != err {
 			fmt.Println("failed to write ranking data file ")
@@ -268,8 +272,8 @@ func readFromNftScan(offset int) ([]OrderInfo, error) {
 		return nftScanResult.Data, err
 		//fmt.Println(bodyStr)
 	}
-	fmt.Printf("%s", fmt.Sprintf("nftscan return code:%d  msg:%s, len:%d", nftScanResult.Code, nftScanResult.Msg, len(nftScanResult.Data)))
-	fmt.Println("")
+	//fmt.Printf("%s", fmt.Sprintf("nftscan return code:%d  msg:%s, len:%d", nftScanResult.Code, nftScanResult.Msg, len(nftScanResult.Data)))
+	//fmt.Println("")
 	return nftScanResult.Data, nil
 	//}
 }

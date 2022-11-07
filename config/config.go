@@ -67,6 +67,7 @@ type RankingConfig struct {
 	PointsPerBuy    int      `json:"points_per_buy"`
 	CbTimes         int      `json:"cb_times"`
 	RankingInterval int      `json:"ranking_interval"`
+	MinListedTime   int      `json:"min_listed_time"`
 }
 
 func ParseConfigFromFile(filePath string) *Config {

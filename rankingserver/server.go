@@ -28,6 +28,8 @@ func (server *Server) Serve() {
 
 	router.HandleFunc("/Ranking", server.handleRanking).Methods("GET")
 	router.HandleFunc("/ranking", server.handleRanking).Methods("GET")
+	router.HandleFunc("/params", server.handleGetParams).Methods("GET")
+
 	listenAddr := defaultListenAddr
 	if server.cfg.ServerConfig.ListenAddr != "" {
 		listenAddr = server.cfg.ServerConfig.ListenAddr
