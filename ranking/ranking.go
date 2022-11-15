@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -63,14 +64,15 @@ func Start(cfg *config.Config) {
 	clearMaps()
 	//隔一段时间重新跑
 	for {
-		fmt.Println("Rebuild Ranking data...")
+		t1 := time.Now().Unix()
+		//fmt.Println("Rebuild Ranking data...")
 		//读取全部成交定单
 		for {
 			scanOrders, err := readFromNftScan(offset)
 
 			if err != nil {
-				fmt.Println(err.Error())
-				fmt.Println("retry in ", retryInterval, "seconds")
+				//fmt.Println(err.Error())
+				//fmt.Println("retry in ", retryInterval, "seconds")
 				time.Sleep(time.Duration(retryInterval) * time.Second)
 				continue
 			}
@@ -87,7 +89,7 @@ func Start(cfg *config.Config) {
 				if len(allUserOrders[order.Maker][order.Tx_hash]) == 0 {
 					//fmt.Println("add maker hash => order")
 					allUserOrders[order.Maker][order.Tx_hash] = make(map[string]interface{})
-					allUserOrders[order.Maker][order.Tx_hash]["Side"] = "Sell"
+					allUserOrders[order.Maker][order.Tx_hash]["Side"] = "sell"
 					allUserOrders[order.Maker][order.Tx_hash]["Maker"] = order.Maker
 					allUserOrders[order.Maker][order.Tx_hash]["Taker"] = order.Taker
 					allUserOrders[order.Maker][order.Tx_hash]["Tx_time"] = order.Tx_time
@@ -95,6 +97,8 @@ func Start(cfg *config.Config) {
 					allUserOrders[order.Maker][order.Tx_hash]["Token_id"] = order.Token_id
 					allUserOrders[order.Maker][order.Tx_hash]["Nft_address"] = order.Nft_address
 					allUserOrders[order.Maker][order.Tx_hash]["Listing_time"] = order.Listing_time
+					allUserOrders[order.Maker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
+					//fmt.Println("scan sell order change time:", order.Order_change_time)
 
 				}
 				if nil == allUserOrders[order.Taker] {
@@ -105,7 +109,6 @@ func Start(cfg *config.Config) {
 				if len(allUserOrders[order.Taker][order.Tx_hash]) == 0 {
 					//fmt.Println("add taker hask => order")
 					allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
-					allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
 					allUserOrders[order.Taker][order.Tx_hash]["Side"] = "buy"
 					allUserOrders[order.Taker][order.Tx_hash]["Maker"] = order.Maker
 					allUserOrders[order.Taker][order.Tx_hash]["Taker"] = order.Taker
@@ -114,6 +117,8 @@ func Start(cfg *config.Config) {
 					allUserOrders[order.Taker][order.Tx_hash]["Token_id"] = order.Token_id
 					allUserOrders[order.Taker][order.Tx_hash]["Nft_address"] = order.Nft_address
 					allUserOrders[order.Taker][order.Tx_hash]["Listing_time"] = order.Listing_time
+					allUserOrders[order.Taker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
+					//fmt.Println("scan buy order change time:", order.Taker, order.Order_change_time)
 				}
 				//fmt.Println(i, "processed")
 			}
@@ -129,19 +134,26 @@ func Start(cfg *config.Config) {
 		for i := range userPoints {
 			userPoints[i] = 0
 		}
+
+		for i := range userPointsSort {
+			userPointsSort[i] = 0
+		}
 		for user, userOrder := range allUserOrders {
 			for _, order := range userOrder {
-				orderTxTime := fmtStrFromInterface(order["Tx_time"])
+				orderTxTime := fmtStrFromInterface(order["Order_change_time"])
 				txTime, _ := strconv.Atoi(orderTxTime)
 				//fmt.Println(">>> ========================== New Order ==========================")
-				//fmt.Print("[", user, "] ")
+				//f//mt.Print("[", user, "] ")
 				//白名单用户
 				if whiteListed(user, cfg.RankingConfig.WhiteList) {
 					//fmt.Println("whitelisted ")
+					//fmt.Println("txTime:", txTime)
+					//fmt.Println("side:", order["Side"])
+					//fmt.Println("changetime:", order["Order_change_time"], txTime)
 					//close beta 期间完成
 					if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
 						//fmt.Print("During CB, ")
-						if order["Side"] == "Sell" {
+						if order["Side"] == "sell" {
 							//fmt.Println(" made a deal as [SELLER] won [", cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
 						} else {
@@ -150,7 +162,7 @@ func Start(cfg *config.Config) {
 						}
 					} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
 						//fmt.Print("During OB, ")
-						if order["Side"] == "Sell" {
+						if order["Side"] == "sell" {
 							//fmt.Println(" made a deal as [SELLER] won [", cfg.RankingConfig.PointsPerSell, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
 						} else {
@@ -169,8 +181,6 @@ func Start(cfg *config.Config) {
 							//fmt.Println(" made a deal as [BUYER] won [", cfg.RankingConfig.PointsPerBuy, "] points")
 							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
 						}
-					} else {
-						//fmt.Println("[non-whitelisted user made deal not during OB, no points won]")
 					}
 				}
 				//fmt.Println("<<< ========================== Order End ==========================")
@@ -178,15 +188,31 @@ func Start(cfg *config.Config) {
 			}
 		}
 
+		keys := make([]string, 0, len(userPoints))
+		for key := range userPoints {
+			keys = append(keys, key)
+		}
+
+		sort.SliceStable(keys, func(i, j int) bool {
+			return userPoints[keys[i]] > userPoints[keys[j]]
+		})
 		lenUserPoints := len(userPoints)
 		userPointsArray := make([]map[string]interface{}, lenUserPoints)
 		indexArray := 0
-		for k, v := range userPoints {
+		for _, k := range keys {
+			userPointsArray[indexArray] = make(map[string]interface{})
+			userPointsArray[indexArray]["key"] = k
+			userPointsArray[indexArray]["value"] = userPoints[k]
+			indexArray++
+		}
+
+		/* 		for k, v := range userPointsSort {
 			userPointsArray[indexArray] = make(map[string]interface{})
 			userPointsArray[indexArray]["key"] = k
 			userPointsArray[indexArray]["value"] = v
 			indexArray++
-		}
+			fmt.Println("value:", v)
+		} */
 
 		str, err := json.Marshal(userPointsArray)
 		if nil != err {
@@ -197,6 +223,8 @@ func Start(cfg *config.Config) {
 		if nil != err {
 			fmt.Println("failed to write ranking data file ")
 		}
+		t2 := time.Now().Unix()
+		fmt.Println("It took", (t2 - t1), "seconds to make ranking")
 		time.Sleep(time.Duration(cfg.RankingConfig.RankingInterval) * time.Second)
 	}
 }
@@ -248,9 +276,9 @@ func readFromNftScan(offset int) ([]OrderInfo, error) {
 	nftScanUrl := ""
 	httpClient := &http.Client{}
 	nftScanResult := NftScanResult{}
-
+	fmt.Println("read page [", (1 + offset/perPage), "] from nftscan, perPage:", perPage)
 	//for {
-	nftScanUrl = fmt.Sprintf(nftScanApi, offset)
+	nftScanUrl = fmt.Sprintf(nftScanApi, offset, perPage)
 	req, err := http.NewRequest("GET", nftScanUrl, nil)
 	if err != nil {
 		return nftScanResult.Data, err
