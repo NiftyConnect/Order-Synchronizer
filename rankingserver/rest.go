@@ -54,6 +54,7 @@ func (server *Server) handlePostTwitterPoints(w http.ResponseWriter, r *http.Req
 		return
 	}
 
+	addresses = strings.ToLower(addresses)
 	filecontent, err := ioutil.ReadFile(twitterPointsFile)
 	if err != nil {
 		ioutil.WriteFile(twitterPointsFile, []byte(addresses), 0644)
