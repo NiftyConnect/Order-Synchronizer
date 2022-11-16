@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/niftyConnect/order-synchronizer/config"
@@ -188,6 +189,21 @@ func Start(cfg *config.Config) {
 			}
 		}
 
+		//twitter
+		twitterFileContent, err := ioutil.ReadFile(twitterPointsFile)
+		var twitterUsers []string
+		if err != nil {
+			fmt.Println("error reading twitterConfig file", err)
+		} else {
+			if len(twitterFileContent) > 0 {
+				twitterUsers = strings.Split(string(twitterFileContent), "\n")
+				for _, v := range twitterUsers {
+					userPoints[v] += 20
+				}
+			}
+		}
+
+		//排序
 		keys := make([]string, 0, len(userPoints))
 		for key := range userPoints {
 			keys = append(keys, key)

@@ -1,10 +1,11 @@
 package ranking
 
 const (
-	nftScanApi    = "https://restapi.nftscan.com/api/v2/nifty/orders?offset=%d&order_stat=Finalized&limit=%d"
-	xApiKey       = "wU2sELIJ"
-	perPage       = 100
-	retryInterval = 10
+	nftScanApi        = "https://restapi.nftscan.com/api/v2/nifty/orders?offset=%d&order_stat=Finalized&limit=%d"
+	xApiKey           = "wU2sELIJ"
+	perPage           = 100
+	retryInterval     = 10
+	twitterPointsFile = "twitterPoints.cfg"
 )
 
 var (
