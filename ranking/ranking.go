@@ -72,13 +72,13 @@ func Start(cfg *config.Config) {
 			scanOrders, err := readFromNftScan(offset)
 
 			if err != nil {
-				//fmt.Println(err.Error())
-				//fmt.Println("retry in ", retryInterval, "seconds")
+				fmt.Println(err.Error())
+				fmt.Println("retry in ", retryInterval, "seconds")
 				time.Sleep(time.Duration(retryInterval) * time.Second)
 				continue
 			}
 			ordersNum := len(scanOrders)
-			//fmt.Println("len:", ordersNum)
+			fmt.Println("len:", ordersNum)
 
 			for _, order := range scanOrders {
 
