@@ -297,11 +297,13 @@ func readFromNftScan(offset int) ([]OrderInfo, error) {
 	nftScanUrl = fmt.Sprintf(nftScanApi, offset, perPage)
 	req, err := http.NewRequest("GET", nftScanUrl, nil)
 	if err != nil {
+		fmt.Println(err)
 		return nftScanResult.Data, err
 	}
 	req.Header.Add("X-API-KEY", xApiKey)
 	resp, err := httpClient.Do(req)
 	if err != nil {
+		fmt.Println(err)
 		return nftScanResult.Data, err
 	}
 	//io.Copy(os.Stdout, resp.Body)
@@ -309,6 +311,7 @@ func readFromNftScan(offset int) ([]OrderInfo, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
+		fmt.Println(err)
 		return nftScanResult.Data, err
 	}
 	//bodyStr := string(body)
