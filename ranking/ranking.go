@@ -61,10 +61,11 @@ type UserOrderInfo struct {
 }
 
 func Start(cfg *config.Config) {
-	offset := 0
-	clearMaps()
+
 	//隔一段时间重新跑
 	for {
+		offset := 0
+		clearMaps()
 		t1 := time.Now().Unix()
 		//fmt.Println("Rebuild Ranking data...")
 		//读取全部成交定单
@@ -295,6 +296,7 @@ func readFromNftScan(offset int) ([]OrderInfo, error) {
 	fmt.Println("read page [", (1 + offset/perPage), "] from nftscan, perPage:", perPage)
 	//for {
 	nftScanUrl = fmt.Sprintf(nftScanApi, offset, perPage)
+	fmt.Println(nftScanUrl)
 	req, err := http.NewRequest("GET", nftScanUrl, nil)
 	if err != nil {
 		fmt.Println(err)
