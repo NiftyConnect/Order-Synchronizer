@@ -59,6 +59,7 @@ type RankingConfig struct {
 	RankingFile     string   `json:"ranking_file"`
 	WhiteList       []string `json:"whitelist"`
 	BlueChip        []string `json:"bluechip"`
+	TB              []string `json:"tb"`
 	CbStart         int      `json:"cbstart"`
 	CbEnd           int      `json:"cbend"`
 	ObStart         int      `json:"obstart"`
