@@ -72,6 +72,7 @@ func MakeCloseBetaRanking() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg := readConfigAndInit()
 			go ranking.Start(cfg)
+			go ranking.Listing(cfg)
 			rankingServerInst := rankingserver.NewServer(cfg)
 			rankingServerInst.Serve()
 

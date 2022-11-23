@@ -31,6 +31,7 @@ func (server *Server) Serve() {
 	router.HandleFunc("/params", server.handleGetParams).Methods("GET")
 	router.HandleFunc("/twitterpoints", server.handlePostTwitterPoints).Methods("POST")
 	router.HandleFunc("/gettwitterpoints", server.handleGetTwitterPoints).Methods("GET")
+	router.HandleFunc("/getgeneralnft", server.handleGeneralNft).Methods("GET")
 
 	router.HandleFunc("/getfile", server.handleGetFile).Methods("GET")
 

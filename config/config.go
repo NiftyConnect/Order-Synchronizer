@@ -57,6 +57,7 @@ type ServerConfig struct {
 
 type RankingConfig struct {
 	RankingFile     string   `json:"ranking_file"`
+	NftFile         string   `json:"nft_file"`
 	WhiteList       []string `json:"whitelist"`
 	BlueChip        []string `json:"bluechip"`
 	TB              []string `json:"tb"`
