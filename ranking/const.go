@@ -14,7 +14,6 @@ var (
 	allScanTakerOrders   = make(map[string]OrderInfo)
 	allUserOrders        = make(map[string]map[string]map[string]interface{})
 	userPoints           = make(map[string]int)
-	userPointsSort       = make(map[string]int)
 	allUserListingOrders = make(map[string]map[string]map[string]interface{})
 	userListingPoints    = make(map[string]map[string]map[string]interface{})
 )

@@ -139,3 +139,15 @@ func (server *Server) handleGeneralNft(w http.ResponseWriter, r *http.Request) {
 	writeSuccessResponse(w, json.RawMessage(resp))
 
 }
+
+func (server *Server) handleVolume(w http.ResponseWriter, r *http.Request) {
+	var str, err = ioutil.ReadFile(server.cfg.RankingConfig.VolumeFile)
+	if nil != err {
+		fmt.Println(err)
+	}
+	resp := fmt.Sprintf("{\"data\":%s}", str)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	writeSuccessResponse(w, json.RawMessage(resp))
+
+}

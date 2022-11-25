@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"sort"
 	"strconv"
@@ -257,6 +258,9 @@ func Listing(cfg *config.Config) {
 				keys = append(keys, key)
 			}
 		}
+		sort.SliceStable(keys, func(i, j int) bool {
+			return userNfts[keys[i]] > userPoints[keys[j]]
+		})
 		userNftsArray := make([]map[string]interface{}, iUsers)
 		indexArray := 0
 		for _, k := range keys {
@@ -300,112 +304,13 @@ func Start(cfg *config.Config) {
 
 	//隔一段时间重新跑
 	for {
-		offset := 0
 		clearMaps()
 		t1 := time.Now().Unix()
-		//fmt.Println("Rebuild Ranking data...")
-		//读取全部成交定单
-		for {
-			scanOrders, err := readFromNftScan(offset, false)
 
-			if err != nil {
-				fmt.Println(err.Error())
-				fmt.Println("retry in ", retryInterval, "seconds")
-				time.Sleep(time.Duration(retryInterval) * time.Second)
-				continue
-			}
-			ordersNum := len(scanOrders)
+		allUserOrders = readAllOrders()
+		userPoints = calcPoints(allUserOrders, cfg)
 
-			for _, order := range scanOrders {
-
-				if nil == allUserOrders[order.Maker] {
-					//fmt.Println("add maker map")
-					allUserOrders[order.Maker] = make(map[string]map[string]interface{})
-				}
-				//fmt.Println(allUserOrders[order.Maker][order.Tx_hash])
-				if len(allUserOrders[order.Maker][order.Tx_hash]) == 0 {
-					//fmt.Println("add maker hash => order")
-					allUserOrders[order.Maker][order.Tx_hash] = make(map[string]interface{})
-					allUserOrders[order.Maker][order.Tx_hash]["Side"] = "sell"
-					allUserOrders[order.Maker][order.Tx_hash]["Maker"] = order.Maker
-					allUserOrders[order.Maker][order.Tx_hash]["Taker"] = order.Taker
-					allUserOrders[order.Maker][order.Tx_hash]["Tx_time"] = order.Tx_time
-					allUserOrders[order.Maker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
-					allUserOrders[order.Maker][order.Tx_hash]["Token_id"] = order.Token_id
-					allUserOrders[order.Maker][order.Tx_hash]["Nft_address"] = order.Nft_address
-					allUserOrders[order.Maker][order.Tx_hash]["Listing_time"] = order.Listing_time
-					allUserOrders[order.Maker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
-					//fmt.Println("scan sell order change time:", order.Order_change_time)
-
-				}
-				if nil == allUserOrders[order.Taker] {
-					//fmt.Println("add taker map")
-					allUserOrders[order.Taker] = make(map[string]map[string]interface{})
-				}
-
-				if len(allUserOrders[order.Taker][order.Tx_hash]) == 0 {
-					//fmt.Println("add taker hask => order")
-					allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
-					allUserOrders[order.Taker][order.Tx_hash]["Side"] = "buy"
-					allUserOrders[order.Taker][order.Tx_hash]["Maker"] = order.Maker
-					allUserOrders[order.Taker][order.Tx_hash]["Taker"] = order.Taker
-					allUserOrders[order.Taker][order.Tx_hash]["Tx_time"] = order.Tx_time
-					allUserOrders[order.Taker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
-					allUserOrders[order.Taker][order.Tx_hash]["Token_id"] = order.Token_id
-					allUserOrders[order.Taker][order.Tx_hash]["Nft_address"] = order.Nft_address
-					allUserOrders[order.Taker][order.Tx_hash]["Listing_time"] = order.Listing_time
-					allUserOrders[order.Taker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
-					//fmt.Println("scan buy order change time:", order.Taker, order.Order_change_time)
-				}
-				//fmt.Println(i, "processed")
-			}
-			//最后一页
-			if ordersNum < perPage {
-				break
-			}
-			offset += perPage
-		}
-
-		//计算排行榜
-		//清空
-		for i := range userPoints {
-			userPoints[i] = 0
-		}
-
-		for i := range userPointsSort {
-			userPointsSort[i] = 0
-		}
-		for user, userOrder := range allUserOrders {
-			for _, order := range userOrder {
-				orderTxTime := fmtStrFromInterface(order["Order_change_time"])
-				txTime, _ := strconv.Atoi(orderTxTime)
-				if whiteListed(user, cfg.RankingConfig.WhiteList) {
-					if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
-						if order["Side"] == "sell" {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
-						} else {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes
-						}
-					} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-						if order["Side"] == "sell" {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
-						} else {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
-						}
-					}
-				} else {
-					if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
-						if order["Side"] == "sell" {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerSell
-						} else {
-							userPoints[user] = userPoints[user] + cfg.RankingConfig.PointsPerBuy
-						}
-					}
-				}
-			}
-		}
-
-		//twitter
+		//// >>>>>>>>>>>>>>>>>>>>> 计算交易积分排行榜，读取twitter 20 分 >>>>>>>>>>>>>>>>>>>>>
 		twitterFileContent, err := ioutil.ReadFile(twitterPointsFile)
 		var twitterUsers []string
 		if err != nil {
@@ -418,8 +323,9 @@ func Start(cfg *config.Config) {
 				}
 			}
 		}
+		//// <<<<<<<<<<<<<<<<<<<<< 计算交易积分排行榜，读取twitter 20 分 <<<<<<<<<<<<<<<<<<<<<
 
-		//排序
+		// >>>>>>>>>>>>>>>>>>>>> 排序交易积分排行榜 >>>>>>>>>>>>>>>>>>>>>
 		keys := make([]string, 0, len(userPoints))
 		for key := range userPoints {
 			keys = append(keys, key)
@@ -428,29 +334,217 @@ func Start(cfg *config.Config) {
 		sort.SliceStable(keys, func(i, j int) bool {
 			return userPoints[keys[i]] > userPoints[keys[j]]
 		})
-		lenUserPoints := len(userPoints)
-		userPointsArray := make([]map[string]interface{}, lenUserPoints)
-		indexArray := 0
-		for _, k := range keys {
-			userPointsArray[indexArray] = make(map[string]interface{})
-			userPointsArray[indexArray]["key"] = k
-			userPointsArray[indexArray]["value"] = userPoints[k]
-			indexArray++
+		// <<<<<<<<<<<<<<<<<<<<< 排序交易积分排行榜 <<<<<<<<<<<<<<<<<<<<<
+
+		//===================== 交易排行榜写入文件给rest读 =====================
+		writeUserTradePoints(userPoints, keys, cfg)
+
+		// >>>>>>>>>>>>>>>>>>>>> 开始 交易量排行榜 >>>>>>>>>>>>>>>>>>>>>
+		userVolumes := calcVolume(allUserOrders, cfg)
+		// >>>>>>>>>>>>>>>>>>>>> 排序交易量排行榜 >>>>>>>>>>>>>>>>>>>>>
+		keys = make([]string, 0, len(userVolumes))
+		for key := range userVolumes {
+			keys = append(keys, key)
 		}
-		str, err := json.Marshal(userPointsArray)
-		if nil != err {
-			fmt.Println(err)
-		}
-		err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, str, 0644)
-		if nil != err {
-			fmt.Println("failed to write ranking data file ")
-		}
+
+		sort.SliceStable(keys, func(i, j int) bool {
+			return userVolumes[keys[i]] > userVolumes[keys[j]]
+		})
+		writeUserVolumes(userVolumes, keys, cfg)
+		// <<<<<<<<<<<<<<<<<<<<< 排序交易量排行榜 <<<<<<<<<<<<<<<<<<<<<
+
+		// <<<<<<<<<<<<<<<<<<<<< 结束 交易量排行榜 <<<<<<<<<<<<<<<<<<<<<
 		t2 := time.Now().Unix()
 		fmt.Println("It took", (t2 - t1), "seconds to make ranking")
 		time.Sleep(time.Duration(cfg.RankingConfig.RankingInterval) * time.Second)
 	}
 }
 
+func readAllOrders() map[string]map[string]map[string]interface{} {
+	offset := 0
+	_allUserOrders := make(map[string]map[string]map[string]interface{})
+	// >>>>>>>>>>>>>>>>>>>>> 开始 从 nftscan 读取全部成交定单 >>>>>>>>>>>>>>>>>>>>>
+	for {
+		scanOrders, err := readFromNftScan(offset, false)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			fmt.Println("retry in ", retryInterval, "seconds")
+			time.Sleep(time.Duration(retryInterval) * time.Second)
+			continue
+		}
+		ordersNum := len(scanOrders)
+
+		for _, order := range scanOrders {
+
+			if nil == _allUserOrders[order.Maker] {
+				//fmt.Println("add maker map")
+				_allUserOrders[order.Maker] = make(map[string]map[string]interface{})
+			}
+			//fmt.Println(allUserOrders[order.Maker][order.Tx_hash])
+			if len(_allUserOrders[order.Maker][order.Tx_hash]) == 0 {
+				//fmt.Println("add maker hash => order")
+				_allUserOrders[order.Maker][order.Tx_hash] = make(map[string]interface{})
+				_allUserOrders[order.Maker][order.Tx_hash]["Side"] = "sell"
+				_allUserOrders[order.Maker][order.Tx_hash]["Maker"] = order.Maker
+				_allUserOrders[order.Maker][order.Tx_hash]["Taker"] = order.Taker
+				_allUserOrders[order.Maker][order.Tx_hash]["Tx_time"] = order.Tx_time
+				_allUserOrders[order.Maker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
+				_allUserOrders[order.Maker][order.Tx_hash]["Token_id"] = order.Token_id
+				_allUserOrders[order.Maker][order.Tx_hash]["Nft_address"] = order.Nft_address
+				_allUserOrders[order.Maker][order.Tx_hash]["Listing_time"] = order.Listing_time
+				_allUserOrders[order.Maker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
+				_allUserOrders[order.Maker][order.Tx_hash]["Trade_price"] = order.Trade_price
+				//fmt.Println("scan sell order change time:", order.Order_change_time)
+
+			}
+			if nil == _allUserOrders[order.Taker] {
+				//fmt.Println("add taker map")
+				_allUserOrders[order.Taker] = make(map[string]map[string]interface{})
+			}
+
+			if len(_allUserOrders[order.Taker][order.Tx_hash]) == 0 {
+				//fmt.Println("add taker hask => order")
+				_allUserOrders[order.Taker][order.Tx_hash] = make(map[string]interface{})
+				_allUserOrders[order.Taker][order.Tx_hash]["Side"] = "buy"
+				_allUserOrders[order.Taker][order.Tx_hash]["Maker"] = order.Maker
+				_allUserOrders[order.Taker][order.Tx_hash]["Taker"] = order.Taker
+				_allUserOrders[order.Taker][order.Tx_hash]["Tx_time"] = order.Tx_time
+				_allUserOrders[order.Taker][order.Tx_hash]["Tx_hash"] = order.Tx_hash
+				_allUserOrders[order.Taker][order.Tx_hash]["Token_id"] = order.Token_id
+				_allUserOrders[order.Taker][order.Tx_hash]["Nft_address"] = order.Nft_address
+				_allUserOrders[order.Taker][order.Tx_hash]["Listing_time"] = order.Listing_time
+				_allUserOrders[order.Taker][order.Tx_hash]["Order_change_time"] = order.Order_change_time
+				_allUserOrders[order.Taker][order.Tx_hash]["Trade_price"] = order.Trade_price
+				//fmt.Println("scan buy order change time:", order.Taker, order.Order_change_time)
+			}
+			//fmt.Println(i, "processed")
+		}
+		//最后一页
+		if ordersNum < perPage {
+			break
+		}
+		offset += perPage
+	} // <<<<<<<<<<<<<<<<<<<<< 结束 从 nftscan 读取全部成交定单 <<<<<<<<<<<<<<<<<<<<<
+	return _allUserOrders
+}
+
+func calcPoints(allUserOrders map[string]map[string]map[string]interface{}, cfg *config.Config) map[string]int {
+
+	UserPoints := make(map[string]int)
+	for user, userOrder := range allUserOrders {
+		for _, order := range userOrder {
+			orderTxTime := fmtStrFromInterface(order["Order_change_time"])
+			txTime, _ := strconv.Atoi(orderTxTime)
+			if whiteListed(user, cfg.RankingConfig.WhiteList) {
+				if txTime > cfg.RankingConfig.CbStart && txTime < cfg.RankingConfig.CbEnd {
+					if order["Side"] == "sell" {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerSell*cfg.RankingConfig.CbTimes
+					} else {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerBuy*cfg.RankingConfig.CbTimes
+					}
+				} else if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
+					if order["Side"] == "sell" {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerSell
+					} else {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerBuy
+					}
+				}
+			} else {
+				if txTime > cfg.RankingConfig.ObStart && txTime < cfg.RankingConfig.ObEnd {
+					if order["Side"] == "sell" {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerSell
+					} else {
+						UserPoints[user] = UserPoints[user] + cfg.RankingConfig.PointsPerBuy
+					}
+				}
+			}
+		}
+	}
+	return UserPoints
+}
+
+func calcVolume(allUserOrders map[string]map[string]map[string]interface{}, cfg *config.Config) map[string]int {
+	UserVolumes := make(map[string]int)
+	for user, userOrder := range allUserOrders {
+		for _, order := range userOrder {
+			if order["Trade_price"] == "0" {
+				continue
+			}
+			priceStr := fmtStrFromInterface(order["Trade_price"])
+			priceInt64, err := strconv.ParseFloat(priceStr, 64)
+			if nil == err {
+				priceFloat := int(math.Trunc(priceInt64 / math.Pow10(12)))
+				UserVolumes[user] += priceFloat
+			} else {
+				fmt.Println(err)
+			}
+		}
+	}
+	return UserVolumes
+}
+
+func writeUserTradePoints(userPoints map[string]int, keys []string, cfg *config.Config) {
+
+	lenUserPoints := len(userPoints)
+	userPointsArray := make([]map[string]interface{}, lenUserPoints)
+	indexArray := 0
+	for _, k := range keys {
+		userPointsArray[indexArray] = make(map[string]interface{})
+		userPointsArray[indexArray]["key"] = k
+		userPointsArray[indexArray]["value"] = userPoints[k]
+		userPointsArray[indexArray]["ranking"] = indexArray + 1
+		indexArray++
+	}
+	str, err := json.Marshal(userPointsArray)
+	if nil != err {
+		fmt.Println(err)
+	}
+	err = ioutil.WriteFile(cfg.RankingConfig.RankingFile, str, 0644)
+	if nil != err {
+		fmt.Println("failed to write ranking data file ")
+	}
+}
+
+func writeUserVolumes(userVolumes map[string]int, keys []string, cfg *config.Config) {
+	userVolumesArray := make([]map[string]interface{}, 100)
+	indexArray := 0
+	totalVolume := 0
+	num := 0
+	for _, k := range keys {
+		totalVolume += userVolumes[k]
+		num++
+		if num >= 100 {
+			break
+		}
+	}
+	totalVolumeFloat := float64(totalVolume) / math.Pow10(6)
+	totalPer := 0.0
+	totalV := 0.0
+	for _, k := range keys {
+		userVolumesArray[indexArray] = make(map[string]interface{})
+		userVolumesArray[indexArray]["key"] = k
+		userVolumesArray[indexArray]["value"] = float64(userVolumes[k]) / math.Pow10(6)
+		userVolumesArray[indexArray]["percent"] = (float64(userVolumes[k]) / math.Pow10(6)) * 100 / float64(totalVolumeFloat)
+		userVolumesArray[indexArray]["ranking"] = indexArray + 1
+		totalPer += (float64(userVolumes[k]) / math.Pow10(6)) * 100 / float64(totalVolumeFloat)
+		totalV += float64(userVolumes[k]) / math.Pow10(6)
+		indexArray++
+		if indexArray >= 100 {
+			break
+		}
+	}
+	fmt.Println("totalPer:", totalPer)
+	fmt.Println("totalV:", totalV)
+	fmt.Println("totalVolume:", totalVolumeFloat)
+	str, err := json.Marshal((userVolumesArray))
+	if nil == err {
+		err := ioutil.WriteFile(cfg.RankingConfig.VolumeFile, str, 0644)
+		if nil != err {
+			fmt.Println("failed to write volumes file")
+		}
+	}
+}
 func fmtStrFromInterface(val interface{}) string {
 	if val == nil {
 		return ""
