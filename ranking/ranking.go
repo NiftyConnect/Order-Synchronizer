@@ -342,15 +342,19 @@ func Start(cfg *config.Config) {
 		// >>>>>>>>>>>>>>>>>>>>> 开始 交易量排行榜 >>>>>>>>>>>>>>>>>>>>>
 		userVolumes := calcVolume(allUserOrders, cfg)
 		// >>>>>>>>>>>>>>>>>>>>> 排序交易量排行榜 >>>>>>>>>>>>>>>>>>>>>
-		keys = make([]string, 0, len(userVolumes))
-		for key := range userVolumes {
+		/* 		keys = make([]string, 0, len(userVolumes))
+		   		for key := range userVolumes {
+		   			keys = append(keys, key)
+		   		} */
+		keys = make([]string, 0, len(userPoints))
+		for key := range userPoints {
 			keys = append(keys, key)
 		}
 
 		sort.SliceStable(keys, func(i, j int) bool {
-			return userVolumes[keys[i]] > userVolumes[keys[j]]
+			return userPoints[keys[i]] > userPoints[keys[j]]
 		})
-		writeUserVolumes(userVolumes, keys, cfg)
+		writeUserVolumes(userVolumes, userPoints, keys, cfg)
 		// <<<<<<<<<<<<<<<<<<<<< 排序交易量排行榜 <<<<<<<<<<<<<<<<<<<<<
 
 		// <<<<<<<<<<<<<<<<<<<<< 结束 交易量排行榜 <<<<<<<<<<<<<<<<<<<<<
@@ -506,7 +510,7 @@ func writeUserTradePoints(userPoints map[string]int, keys []string, cfg *config.
 	}
 }
 
-func writeUserVolumes(userVolumes map[string]int, keys []string, cfg *config.Config) {
+func writeUserVolumes(userVolumes map[string]int, userPoints map[string]int, keys []string, cfg *config.Config) {
 	userVolumesArray := make([]map[string]interface{}, 100)
 	indexArray := 0
 	totalVolume := 0
@@ -527,6 +531,7 @@ func writeUserVolumes(userVolumes map[string]int, keys []string, cfg *config.Con
 		userVolumesArray[indexArray]["value"] = float64(userVolumes[k]) / math.Pow10(6)
 		userVolumesArray[indexArray]["percent"] = (float64(userVolumes[k]) / math.Pow10(6)) * 100 / float64(totalVolumeFloat)
 		userVolumesArray[indexArray]["ranking"] = indexArray + 1
+		userVolumesArray[indexArray]["points"] = userPoints[k]
 		totalPer += (float64(userVolumes[k]) / math.Pow10(6)) * 100 / float64(totalVolumeFloat)
 		totalV += float64(userVolumes[k]) / math.Pow10(6)
 		indexArray++
