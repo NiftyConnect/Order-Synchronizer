@@ -43,6 +43,29 @@
     "db_path": "test.db"
   },
   "ranking_config":{
-    "ranking_file":"ranking.json"
+    "ranking_file": "ranking.json",
+    "nft_file": "nft.json",
+    "volume_file": "volume.json",
+    "whitelist":[
+      "0xfa2355df3ae6be2f5316e1e0bd66fad831b3a22d",
+      "0x083e905c25b692459317636c0f64b1286f873fe5"
+    ],
+    "bluechip": [
+      "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+      "0x60e4d786628fea6478f785a6d7e704777c86a7c6"
+    ],
+    "tb": [
+      "0x6bde5fd360d8b0826806d600fb522ed7a7f58da8",
+      "0x192174035f7f31191515db14abb15ab4a8553567"
+    ],
+    "cbstart": 1668740400,
+    "cbend": 1668999600,
+    "obstart": 1668999600,
+    "obend": 1669777200,
+    "points_per_sell": 5,
+    "points_per_buy": 3,
+    "cb_times": 3,
+    "ranking_interval": 30,
+    "min_listed_time": 7200
   }
 }
