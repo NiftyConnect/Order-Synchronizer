@@ -151,3 +151,86 @@ func (server *Server) handleVolume(w http.ResponseWriter, r *http.Request) {
 	writeSuccessResponse(w, json.RawMessage(resp))
 
 }
+
+func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	result, _ := ioutil.ReadAll(r.Body)
+	postData := make(map[string]string)
+	claimFileData := make(map[string]map[string]int)
+	json.Unmarshal(result, &postData)
+	address := postData["address"]
+	nftType := postData["nftType"]
+	fmt.Println("address:", address, "nftType:", nftType)
+	if len(address) < 20 {
+		writeSuccessResponse(w, "missing address")
+		return
+	}
+	if len(nftType) < 1 {
+		writeSuccessResponse(w, "missing nftType")
+		return
+	}
+	if (nftType != "general") && (nftType != "premium") {
+		writeSuccessResponse(w, "invalid nftType")
+	} else {
+		var old_content, err = ioutil.ReadFile(server.cfg.RankingConfig.ClaimFile)
+		if err != nil {
+			writeSuccessResponse(w, err)
+		} else {
+			if len(old_content) == 0 {
+				claimFileData[address] = make(map[string]int)
+				claimFileData[address][nftType] = 1
+			} else {
+				err := json.Unmarshal(old_content, &claimFileData)
+				if nil != err {
+					fmt.Println(err)
+				} else {
+					if claimFileData[address] == nil {
+						claimFileData[address] = make(map[string]int)
+					} else {
+						if claimFileData[address][nftType] == 1 {
+							writeSuccessResponse(w, "already claimed")
+							return
+						}
+					}
+					claimFileData[address][nftType] = 1
+				}
+			}
+			new_content, err := json.Marshal(claimFileData)
+			if err != nil {
+				writeSuccessResponse(w, err)
+			}
+			ioutil.WriteFile(server.cfg.RankingConfig.ClaimFile, []byte(new_content), 0644)
+			writeSuccessResponse(w, "ok")
+		}
+	}
+}
+
+func (server *Server) handleGetClaimedNft(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	r.ParseForm()
+	address := r.FormValue("address")
+	var content, err = ioutil.ReadFile(server.cfg.RankingConfig.ClaimFile)
+	var fileData = make(map[string]map[string]int)
+	if err != nil {
+		writeSuccessResponse(w, err)
+		return
+	} else {
+		if len(content) > 0 && len(address) > 1 {
+			err := json.Unmarshal(content, &fileData)
+			if err != nil {
+				writeSuccessResponse(w, err)
+				return
+			}
+			msg, err := json.Marshal(fileData[address])
+			if err != nil {
+				fmt.Println(err)
+			}
+			writeSuccessResponse(w, json.RawMessage(msg))
+		} else {
+			writeSuccessResponse(w, json.RawMessage(content))
+		}
+	}
+}

@@ -46,6 +46,7 @@
     "ranking_file": "ranking.json",
     "nft_file": "nft.json",
     "volume_file": "volume.json",
+    "claim_file": "claim.json",
     "whitelist":[
       "0xfa2355df3ae6be2f5316e1e0bd66fad831b3a22d",
       "0x083e905c25b692459317636c0f64b1286f873fe5"

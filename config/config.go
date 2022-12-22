@@ -59,6 +59,7 @@ type RankingConfig struct {
 	RankingFile     string   `json:"ranking_file"`
 	NftFile         string   `json:"nft_file"`
 	VolumeFile      string   `json:"volume_file"`
+	ClaimFile       string   `json:"claim_file"`
 	WhiteList       []string `json:"whitelist"`
 	BlueChip        []string `json:"bluechip"`
 	TB              []string `json:"tb"`

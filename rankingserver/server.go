@@ -36,6 +36,9 @@ func (server *Server) Serve() {
 
 	router.HandleFunc("/getfile", server.handleGetFile).Methods("GET")
 
+	router.HandleFunc("/claim", server.handleClaim).Methods("POST")
+	router.HandleFunc("/getclaimednft", server.handleGetClaimedNft).Methods("GET")
+
 	listenAddr := defaultListenAddr
 	if server.cfg.ServerConfig.ListenAddr != "" {
 		listenAddr = server.cfg.ServerConfig.ListenAddr
