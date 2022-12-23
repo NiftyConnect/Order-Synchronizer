@@ -271,6 +271,31 @@ func Listing(cfg *config.Config) {
 				indexArray++
 			}
 		}
+		tmpList := []map[string]interface{}{
+			{"key": "0xC69f29c28EB5b8920F7B7F624D325d70B4dCc68e", "value": 22},
+			{"key": "0x1B769E29052b5163DDa92FDf69bc2A2Add3afbFA", "value": 22},
+			{"key": "0xB2e8aA3B85689874ef6983404505D4dA323fCBe8", "value": 22},
+			{"key": "0x97ceb1160293736eBC2680f6dD2F650A4C0413ec", "value": 22},
+			{"key": "0x967D60bCae750189Ab97716fE5c7E95bf76186eC", "value": 22},
+			{"key": "0x6d6F06b4eeF5b35e9d0C56e540DcCb3860381830", "value": 22},
+			{"key": "0x1e379b309F642A952B46e918B898c0c918013360", "value": 22},
+			{"key": "0x785DC7204e2Da8694c045e615562e946AADbf914", "value": 22},
+			{"key": "0x344e439e64b343de567732E64c26022133f2cE77", "value": 22},
+			{"key": "0x68C9258b87b1Cd4302Bd1c3D2e44C539e32D7D78", "value": 22},
+			{"key": "0x7522314B5E2c9BA43d0C38533cd0D36A53fDb64b", "value": 22},
+			{"key": "0xf550D557471D70A06b2f423C94900d4673029b0e", "value": 21},
+			{"key": "0x21DbDDF86Dc128698Be0Dd1A8A9AC07B8a979e27", "value": 21},
+			{"key": "0x29744bD7B37bDe14F74d281D3BAdBE68b299Be5f", "value": 21},
+			{"key": "0xC41e5E7804Cf89755eCe46F60346280a9a932239", "value": 17},
+			{"key": "0x3B02B9339Cc00939D0B40eB42B0d4c1aaDD1eCEC", "value": 16},
+			{"key": "0x934a92abE096b87674c8dfd8c459C5B474E45514", "value": 16},
+			{"key": "0x6d8b012EA4C3482eBFA49Cf9FaAFDF6Fd56bcE69", "value": 16},
+			{"key": "0x21266bC2F0344D2C24D848F17A69cfABA0FD5D64", "value": 16},
+			{"key": "0x7297160a1D1483c00ab6C48647EEC9c64fe9d97e", "value": 6},
+		}
+		// fmt.Println(tmpList)
+		// fmt.Println(userNftsArray)
+		userNftsArray = append(userNftsArray, tmpList...)
 		str, _ := json.Marshal(userNftsArray)
 		err := ioutil.WriteFile(cfg.RankingConfig.NftFile, str, 0644)
 		if nil != err {
