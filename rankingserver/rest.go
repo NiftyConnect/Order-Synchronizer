@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"os"
 	"strings"
@@ -171,6 +172,36 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 		writeSuccessResponse(w, "missing nftType")
 		return
 	}
+	// 读取general nft配置
+	var nftconfig []GeneralNFT
+	var rankingconfig []PremiumNFT
+	cacheConfig := make(map[string]int)
+	cacheRankingConfig := make(map[string]int)
+	// general
+	var content, err = ioutil.ReadFile(server.cfg.RankingConfig.NftFile)
+	if nil != err {
+		fmt.Println(err)
+	}
+	msg := json.Unmarshal(content, &nftconfig)
+	if msg != nil {
+		fmt.Println(msg)
+	}
+	for _, info := range nftconfig {
+		cacheConfig[info.Key] = info.Value
+	}
+	// premium
+	var rk_content, rk_err = ioutil.ReadFile(server.cfg.RankingConfig.RankingFile)
+	if nil != rk_err {
+		fmt.Println(rk_err)
+	}
+	rk_msg := json.Unmarshal(rk_content, &rankingconfig)
+	if rk_msg != nil {
+		fmt.Println(rk_msg)
+	}
+	for _, info := range rankingconfig {
+		cacheRankingConfig[info.Key] = info.Ranking
+	}
+	//fmt.Println(cacheRankingConfig)
 	if (nftType != "general") && (nftType != "premium") {
 		writeSuccessResponse(w, "invalid nftType")
 	} else {
@@ -180,7 +211,24 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 		} else {
 			if len(old_content) == 0 {
 				claimFileData[address] = make(map[string]int)
-				claimFileData[address][nftType] = 1
+				if nftType == "general" {
+					count := cacheConfig[address]
+					if count == 0 {
+						writeSuccessResponse(w, "no general nft to claim")
+						return
+					} else {
+						amount := math.Min(float64(count), 10)
+						claimFileData[address]["general"] = int(amount)
+					}
+				} else {
+					rank := cacheRankingConfig[address]
+					if rank == 0 || rank > 100 {
+						writeSuccessResponse(w, "no premium nft to claim")
+						return
+					} else {
+						claimFileData[address]["premium"] = 1
+					}
+				}
 			} else {
 				err := json.Unmarshal(old_content, &claimFileData)
 				if nil != err {
@@ -189,12 +237,29 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 					if claimFileData[address] == nil {
 						claimFileData[address] = make(map[string]int)
 					} else {
-						if claimFileData[address][nftType] == 1 {
+						if claimFileData[address][nftType] >= 1 {
 							writeSuccessResponse(w, "already claimed")
 							return
 						}
 					}
-					claimFileData[address][nftType] = 1
+					if nftType == "general" {
+						count := cacheConfig[address]
+						if count == 0 {
+							writeSuccessResponse(w, "no general nft to claim")
+							return
+						} else {
+							amount := math.Min(float64(count), 10)
+							claimFileData[address]["general"] = int(amount)
+						}
+					} else {
+						rank := cacheRankingConfig[address]
+						if rank == 0 || rank > 100 {
+							writeSuccessResponse(w, "no premium nft to claim")
+							return
+						} else {
+							claimFileData[address]["premium"] = 1
+						}
+					}
 				}
 			}
 			new_content, err := json.Marshal(claimFileData)
