@@ -161,7 +161,8 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 	postData := make(map[string]string)
 	claimFileData := make(map[string]map[string]int)
 	json.Unmarshal(result, &postData)
-	address := postData["address"]
+	addr := postData["address"]
+	address := strings.ToLower(addr)
 	nftType := postData["nftType"]
 	fmt.Println("address:", address, "nftType:", nftType)
 	if len(address) < 20 {
@@ -187,7 +188,8 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(msg)
 	}
 	for _, info := range nftconfig {
-		cacheConfig[info.Key] = info.Value
+		cache_key := strings.ToLower(info.Key)
+		cacheConfig[cache_key] = info.Value
 	}
 	// premium
 	var rk_content, rk_err = ioutil.ReadFile(server.cfg.RankingConfig.RankingFile)
@@ -199,7 +201,8 @@ func (server *Server) handleClaim(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(rk_msg)
 	}
 	for _, info := range rankingconfig {
-		cacheRankingConfig[info.Key] = info.Ranking
+		cache_key := strings.ToLower(info.Key)
+		cacheRankingConfig[cache_key] = info.Ranking
 	}
 	//fmt.Println(cacheRankingConfig)
 	if (nftType != "general") && (nftType != "premium") {
@@ -276,7 +279,8 @@ func (server *Server) handleGetClaimedNft(w http.ResponseWriter, r *http.Request
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	r.ParseForm()
-	address := r.FormValue("address")
+	addr := r.FormValue("address")
+	address := strings.ToLower(addr)
 	var content, err = ioutil.ReadFile(server.cfg.RankingConfig.ClaimFile)
 	var fileData = make(map[string]map[string]int)
 	if err != nil {
